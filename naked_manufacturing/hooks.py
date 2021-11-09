@@ -9,6 +9,19 @@ app_color = "grey"
 app_email = "admin@gmail.com"
 app_license = "MIT"
 
+fixtures = [
+{
+    "dt":"DocType",
+    "filters":[
+        [
+        "name","in",[
+		"Supplier"
+	]
+	]
+]
+}
+]
+
 # Includes in <head>
 # ------------------
 

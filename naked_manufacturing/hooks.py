@@ -9,7 +9,7 @@ app_color = "grey"
 app_email = "admin@gmail.com"
 app_license = "MIT"
 
-fixtures = [
+fixtures = ["Client Script",
 {
     "dt":"DocType",
     "filters":[
@@ -21,6 +21,10 @@ fixtures = [
 ]
 }
 ]
+doctype_js = {
+	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
+}
+
 
 # Includes in <head>
 # ------------------

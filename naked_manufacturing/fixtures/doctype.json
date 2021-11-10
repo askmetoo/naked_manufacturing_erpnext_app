@@ -13,7 +13,7 @@
   "allow_import": 1,
   "allow_rename": 1,
   "app": null,
-  "autoname": "naming_series:",
+  "autoname": "field:supplier_name",
   "beta": 0,
   "color": null,
   "colour": null,
@@ -191,7 +191,7 @@
     "show_preview_popup": 0,
     "translatable": 0,
     "trigger": null,
-    "unique": 0,
+    "unique": 1,
     "width": null
    },
    {
@@ -3359,7 +3359,7 @@
   ],
   "max_attachments": 0,
   "menu_index": null,
-  "modified": "2021-11-09 00:36:36.891890",
+  "modified": "2021-11-09 21:09:59.076401",
   "module": "Buying",
   "name": "Supplier",
   "name_case": "Title Case",

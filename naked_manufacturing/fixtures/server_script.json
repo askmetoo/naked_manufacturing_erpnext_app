@@ -15,5 +15,22 @@
   "reference_doctype": "Supplier",
   "script": "if doc.parent_supplier:\n    if doc.supplier_primary_address or doc.country:\n        city=frappe.db.get_value('Address',{'name':doc.supplier_primary_address},'city')\n        if not frappe.get_list(\"Individual Supplier Details\",{'supplier_name':doc.name}):\n            supplier_doc = frappe.get_doc('Supplier',doc.parent_supplier)\n            supplier_doc = supplier_doc.append('individual_supplier_details', {\n                'supplier_name':doc.name,\n                'country':doc.country,\n                'city':city\n            })\n            supplier_doc.save()\n        else:\n            doc_name = frappe.db.get_value('Individual Supplier Details',{'supplier_name':doc.name},'name')\n            isd_doc = frappe.get_doc('Individual Supplier Details',doc_name)\n            isd_doc.update({\n                'supplier_name':doc.name,\n                'country':doc.country,\n                'city':city\n            })\n            isd_doc.save()",
   "script_type": "DocType Event"
+ },
+ {
+  "allow_guest": 0,
+  "api_method": null,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Server Script",
+  "doctype_event": "Before Delete",
+  "event_frequency": "All",
+  "modified": "2021-11-14 21:37:50.831536",
+  "name": "delete_individual_supplier_details",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "reference_doctype": "Supplier",
+  "script": "if doc.parent_supplier:\n    doc_name = frappe.db.get_value('Individual Supplier Details',{'supplier_name':doc.name},'name')\n    frappe.get_doc(dict(\n        doctype = 'Individual Supplier Details',\n        parent = doc.parent_supplier,\n        name = doc_name\n    )).delete()\n",
+  "script_type": "DocType Event"
  }
 ]

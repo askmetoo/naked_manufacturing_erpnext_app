@@ -1,6 +1,4 @@
 from . import __version__ as app_version
-import frappe
-from frappe import _
 
 app_name = "naked_manufacturing"
 app_title = "naked_manufacturing"
@@ -28,6 +26,11 @@ fixtures = ["Server Script",
 doctype_js = {
 	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
 }
+#doc_events = {
+	#"Supplier":{
+		#"validate" :["naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload"]
+	#}
+#}
 
 # Includes in <head>
 # ------------------

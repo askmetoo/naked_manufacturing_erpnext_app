@@ -1,4 +1,6 @@
 from . import __version__ as app_version
+import frappe
+from frappe import _
 
 app_name = "naked_manufacturing"
 app_title = "naked_manufacturing"
@@ -9,13 +11,15 @@ app_color = "grey"
 app_email = "admin@gmail.com"
 app_license = "MIT"
 
-fixtures = ["Client Script","Server Script",
-{
-    "dt":"DocType",
-    "filters":[
+fixtures = ["Server Script",
+{"dt": "Custom Field",
+		"filters": [
         [
         "name","in",[
-		"Supplier"
+		"Supplier-is_group",
+		"Supplier-parent_supplier",
+		"Supplier-individual_supplier_details",
+		"Supplier-individual_supplier_detail"
 	]
 	]
 ]
@@ -24,7 +28,6 @@ fixtures = ["Client Script","Server Script",
 doctype_js = {
 	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
 }
-
 
 # Includes in <head>
 # ------------------

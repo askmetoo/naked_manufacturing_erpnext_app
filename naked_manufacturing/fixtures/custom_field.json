@@ -82,7 +82,7 @@
   "insert_after": "is_group",
   "label": "Parent Supplier",
   "length": 0,
-  "mandatory_depends_on": null,
+  "mandatory_depends_on": "eval:doc.is_group==0",
   "modified": "2021-11-15 19:58:48.107830",
   "name": "Supplier-parent_supplier",
   "no_copy": 0,

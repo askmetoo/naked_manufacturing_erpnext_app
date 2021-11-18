@@ -38,7 +38,7 @@ frappe.ui.form.on('Supplier', {
 		}
 	},
 	parent_supplier: function (frm) {
-		if (frm.doc.parent_supplier != parent_supplier) {
+		if (frm.doc.parent_supplier != parent_supplier && parent_supplier!==undefined) {
 			frappe.call({
 				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.delete_child_supplier_details",
 				args: {
@@ -50,5 +50,6 @@ frappe.ui.form.on('Supplier', {
 				}
 			})
 		}
-	}
+	},
+
 })

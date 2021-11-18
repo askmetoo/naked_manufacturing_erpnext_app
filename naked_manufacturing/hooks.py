@@ -17,7 +17,10 @@ fixtures = ["Server Script",
 		"Supplier-is_group",
 		"Supplier-parent_supplier",
 		"Supplier-individual_supplier_details",
-		"Supplier-individual_supplier_detail"
+		"Supplier-individual_supplier_detail",
+		"Supplier-designation",
+		"Supplier-contacts_details_",
+		"Supplier-contacts"
 	]
 	]
 ]
@@ -26,11 +29,6 @@ fixtures = ["Server Script",
 doctype_js = {
 	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
 }
-#doc_events = {
-	#"Supplier":{
-		#"validate" :["naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload"]
-	#}
-#}
 
 # Includes in <head>
 # ------------------

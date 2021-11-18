@@ -1,3 +1,4 @@
+var parent_supplier;
 frappe.ui.form.on('Supplier', {
 	onload: function (frm) {
 		frm.list_route = "Tree/Supplier";
@@ -21,7 +22,8 @@ frappe.ui.form.on('Supplier', {
 		})
 	},
 	refresh: function (frm) {
-		if(!frm.doc.__islocal){
+		if (!frm.doc.__islocal) {
+			parent_supplier = frm.doc.parent_supplier
 			frappe.call({
 				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
 				args: {
@@ -33,6 +35,20 @@ frappe.ui.form.on('Supplier', {
 					refresh_field("contacts_details_");
 				}
 			});
+		}
+	},
+	parent_supplier: function (frm) {
+		if (frm.doc.parent_supplier != parent_supplier) {
+			frappe.call({
+				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.delete_child_supplier_details",
+				args: {
+					parent_supplier: parent_supplier,
+					name: frm.doc.name
+				},
+				async: false,
+				callback: function (r) {
+				}
+			})
 		}
 	}
 })

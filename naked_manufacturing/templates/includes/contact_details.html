@@ -6,7 +6,9 @@
 	</tr>
 {% for val in doc %}
     <tr>
-       	 	<td>{% if val.suuplier_primary_contact!=None%}<a href="/app/contact/{{val.supplier_primary_contact}}">{{val.supplier_primary_contact}}{% endif %}</a></td>
+       	 	<td>{% if val.suuplier_primary_contact!=None%}
+			<a href="/app/contact/{{val.supplier_primary_contact}}">{{val.supplier_primary_contact}}{% endif %}</a>
+		</td>
         	<td> {% if val.designation!=None%}{{val.designation }} {% endif %}</td>
         	<td> {% if val.email_id!=None %}{{ val.email_id}}{% endif %} </td>
        		 <td>{% if val.mobile_no!=None%} {{ val.mobile_no}} {% endif %}</td>

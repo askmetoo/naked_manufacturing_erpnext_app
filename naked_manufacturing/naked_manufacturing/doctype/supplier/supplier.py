@@ -29,12 +29,22 @@ def onload(doc):
 		for row in supplier_list:
 			if row not in contacts:
 				if row.supplier_primary_contact!=None or row.designation!=None or row.email_id!=None or row.mobile_no!=None:
-					contacts.append(row)
-		contact_details = get_contact_details(contacts)
-		return contact_details
+					contacts.append({'supplier_primary_contact':row.supplier_primary_contact,'designation':row.designation,'email_id':row.email_id,'mobile_no':row.mobile_no})
+		if contacts:
+			contact_details = get_contact_details(contacts)
+			return contact_details
 
 
 def get_contact_details(doc):
     return frappe.render_template(
         "templates/includes/contact_details.html", {'doc': doc}
     )
+
+@frappe.whitelist()
+def delete_child_supplier_details(name,parent_supplier):
+	doc_name = frappe.db.get_value('Child Supplier Details',{'supplier_name':name},'name')
+	frappe.get_doc(dict(
+		doctype = 'Child Supplier Details',
+		parent = parent_supplier,
+		name = doc_name
+	)).delete()

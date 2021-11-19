@@ -9,18 +9,26 @@ app_color = "grey"
 app_email = "admin@gmail.com"
 app_license = "MIT"
 
-fixtures = [
-{
-    "dt":"DocType",
-    "filters":[
+fixtures = ["Server Script",
+{"dt": "Custom Field",
+		"filters": [
         [
         "name","in",[
-		"Supplier"
+		"Supplier-is_group",
+		"Supplier-parent_supplier",
+		"Supplier-individual_supplier_details",
+		"Supplier-individual_supplier_detail",
+		"Supplier-designation",
+		"Supplier-contacts_details_",
+		"Supplier-contacts"
 	]
 	]
 ]
 }
 ]
+doctype_js = {
+	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
+}
 
 # Includes in <head>
 # ------------------

@@ -30,7 +30,7 @@ def onload(doc):
                             'designation': documents.designation, 'email_id': documents.email_id, 'mobile_no': documents.mobile_no})
         for row in supplier_list:
             if row not in contacts:
-                if row.supplier_primary_contact != None or row.designation != None or row.email_id != None or row.mobile_no != None:
+                if row.supplier_primary_contact != None :
                     contacts.append({'supplier_primary_contact': row.supplier_primary_contact,
                                     'designation': row.designation, 'email_id': row.email_id, 'mobile_no': row.mobile_no})
         if contacts:

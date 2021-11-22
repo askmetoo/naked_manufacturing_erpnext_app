@@ -22,9 +22,21 @@ fixtures = ["Server Script",
 		"Supplier-contacts_details_",
 		"Supplier-contacts",
 		"Supplier-factory_name",
-		"Supplier-is_factory_location"
+		"Supplier-is_factory_location",
+		"Supplier-manager",
+		"Supplier-is_member"
 	]
 	]
+]
+},
+{"dt": "Property Setter",
+		"filters":[
+	["name","in",[
+		"Supplier-address_contacts-label",
+		"Supplier-contact_html-permlevel"
+	]
+	]
+	
 ]
 }
 ]

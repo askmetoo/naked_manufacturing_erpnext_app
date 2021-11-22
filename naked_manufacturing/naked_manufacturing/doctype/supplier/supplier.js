@@ -20,6 +20,26 @@ frappe.ui.form.on('Supplier', {
 				msgprint("Supplier cannot be added to its own descendants")
 			}
 		})
+		if(frm.doc.is_member==0){
+			frappe.call({
+				method: "frappe.client.get_list",
+				args: {
+				doctype: "Supplier",
+				fields: ["name"],
+			filters:{
+				'manager':frm.doc.supplier_name,
+				'is_member':1
+				},
+					"limit_page_length":0
+				},
+			callback: function(r) {
+				if(r.message.length>0){
+					frappe.validated = false;
+					msgprint("Supplier "+frm.doc.supplier_name + " is a manager.Not able to change as member")
+				}
+			}
+			})
+		}
 	},
 	refresh: function (frm) {
 		if (!frm.doc.__islocal) {
@@ -40,6 +60,14 @@ frappe.ui.form.on('Supplier', {
 				refresh_field("factory_name");
 			}
 		}
+		frm.set_query("manager",function(){
+			return{
+				filters: {
+					"is_member":0,
+					"parent_supplier":frm.doc.parent_supplier
+				}
+			};
+		});	
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -67,6 +95,16 @@ frappe.ui.form.on('Supplier', {
 		else {
 			frm.doc.factory_name = frm.doc.supplier_name
 			refresh_field("factory_name");
+		}
+	},
+	is_member:function(frm){
+		if(frm.doc.is_member==1 && frm.doc.is_factory_location==0){
+			frm.doc.is_factory_location=1
+			refresh_field("is_factory_location");
+		}
+		if(frm.doc.is_member==1){
+			frm.doc.manager=frm.doc.parent_supplier
+			refresh_field("manager")
 		}
 	}
 

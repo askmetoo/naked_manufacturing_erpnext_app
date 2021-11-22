@@ -1,0 +1,36 @@
+[
+ {
+  "default_value": null,
+  "doc_type": "Supplier",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "address_contacts",
+  "modified": "2021-11-21 23:07:59.020712",
+  "name": "Supplier-address_contacts-label",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "label",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "Addresses"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Supplier",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "contact_html",
+  "modified": "2021-11-21 23:13:56.165974",
+  "name": "Supplier-contact_html-permlevel",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "permlevel",
+  "property_type": "Int",
+  "row_name": null,
+  "value": "1"
+ }
+]

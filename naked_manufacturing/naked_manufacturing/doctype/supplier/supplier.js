@@ -38,7 +38,7 @@ frappe.ui.form.on('Supplier', {
 		}
 	},
 	parent_supplier: function (frm) {
-		if (frm.doc.parent_supplier != parent_supplier && parent_supplier!==undefined) {
+		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
 			frappe.call({
 				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.delete_child_supplier_details",
 				args: {
@@ -51,5 +51,19 @@ frappe.ui.form.on('Supplier', {
 			})
 		}
 	},
+	supplier_name: function (frm) {
+		frm.doc.factory_name = frm.doc.supplier_name
+		refresh_field("factory_name");
+	},
+	is_factory_location: function (frm) {
+		if (frm.doc.is_factory_location == 0) {
+			frm.doc.factory_name = ''
+			refresh_field("factory_name");
+		}
+		else {
+			frm.doc.factory_name = frm.doc.supplier_name
+			refresh_field("factory_name");
+		}
+	}
 
 })

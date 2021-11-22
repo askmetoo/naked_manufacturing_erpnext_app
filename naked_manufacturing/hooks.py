@@ -20,7 +20,9 @@ fixtures = ["Server Script",
 		"Supplier-individual_supplier_detail",
 		"Supplier-designation",
 		"Supplier-contacts_details_",
-		"Supplier-contacts"
+		"Supplier-contacts",
+		"Supplier-factory_name",
+		"Supplier-is_factory_location"
 	]
 	]
 ]

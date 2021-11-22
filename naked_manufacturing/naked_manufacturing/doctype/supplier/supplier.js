@@ -35,6 +35,10 @@ frappe.ui.form.on('Supplier', {
 					refresh_field("contacts_details_");
 				}
 			});
+			if(frm.doc.factory_name!=''||frm.doc.factory_name!=undefined){
+				frm.doc.factory_name = frm.doc.supplier_name
+				refresh_field("factory_name");
+			}
 		}
 	},
 	parent_supplier: function (frm) {

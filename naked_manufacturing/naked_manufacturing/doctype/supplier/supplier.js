@@ -1,4 +1,6 @@
+frappe.provide("naked_manufacturing.supplier");
 var parent_supplier;
+
 frappe.ui.form.on('Supplier', {
 	onload: function (frm) {
 		frm.list_route = "Tree/Supplier";
@@ -20,24 +22,24 @@ frappe.ui.form.on('Supplier', {
 				msgprint("Supplier cannot be added to its own descendants")
 			}
 		})
-		if(frm.doc.is_member==0){
+		if (frm.doc.is_member == 0) {
 			frappe.call({
 				method: "frappe.client.get_list",
 				args: {
-				doctype: "Supplier",
-				fields: ["name"],
-			filters:{
-				'manager':frm.doc.supplier_name,
-				'is_member':1
+					doctype: "Supplier",
+					fields: ["name"],
+					filters: {
+						'manager': frm.doc.supplier_name,
+						'is_member': 1
+					},
+					"limit_page_length": 0
 				},
-					"limit_page_length":0
-				},
-			callback: function(r) {
-				if(r.message.length>0){
-					frappe.validated = false;
-					msgprint("Supplier "+frm.doc.supplier_name + " is a manager.Not able to change as member")
+				callback: function (r) {
+					if (r.message.length > 0) {
+						frappe.validated = false;
+						msgprint("Supplier " + frm.doc.supplier_name + " is a manager.Not able to change as member")
+					}
 				}
-			}
 			})
 		}
 	},
@@ -51,23 +53,29 @@ frappe.ui.form.on('Supplier', {
 				},
 				async: false,
 				callback: function (r) {
-					frm.set_df_property('contacts_details_', 'options', r.message)
-					refresh_field("contacts_details_");
+					frm.set_df_property('contacts_details_', 'options', r.message[0])
+					frm.set_df_property('line_break', 'options', r.message[1])
+					frm.set_df_property('line_break_1', 'options', r.message[1])
+					frm.refresh_fields();
 				}
 			});
-			if(frm.doc.factory_name!=''||frm.doc.factory_name!=undefined){
-				frm.doc.factory_name = frm.doc.supplier_name
-				refresh_field("factory_name");
+			if(frm.doc.supplier_primary_contact!=undefined){
+				frm.doc.coordinator_name=frm.doc.supplier_primary_contact
+				frm.doc.cooridnator_email_id=frm.doc.email_id
+				frm.refresh_fields()
+			}
+			if ((frm.doc.supplier_id != '' || frm.doc.supplier_id != undefined) && frm.doc.is_factory_location == 1) {
+				update_factory_details(frm)
 			}
 		}
-		frm.set_query("manager",function(){
-			return{
+		frm.set_query("manager", function () {
+			return {
 				filters: {
-					"is_member":0,
-					"parent_supplier":frm.doc.parent_supplier
+					"is_member": 0,
+					"parent_supplier": frm.doc.parent_supplier
 				}
 			};
-		});	
+		});
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -83,29 +91,40 @@ frappe.ui.form.on('Supplier', {
 			})
 		}
 	},
-	supplier_name: function (frm) {
-		frm.doc.factory_name = frm.doc.supplier_name
-		refresh_field("factory_name");
-	},
 	is_factory_location: function (frm) {
-		if (frm.doc.is_factory_location == 0) {
-			frm.doc.factory_name = ''
-			refresh_field("factory_name");
-		}
-		else {
-			frm.doc.factory_name = frm.doc.supplier_name
-			refresh_field("factory_name");
-		}
+		update_factory_details(frm)
 	},
-	is_member:function(frm){
-		if(frm.doc.is_member==1 && frm.doc.is_factory_location==0){
-			frm.doc.is_factory_location=1
+	after_save: function (frm) {
+		update_factory_details(frm)
+	},
+	is_member: function (frm) {
+		if (frm.doc.is_member == 1 && frm.doc.is_factory_location == 0) {
+			frm.doc.is_factory_location = 1
 			refresh_field("is_factory_location");
 		}
-		if(frm.doc.is_member==1){
-			frm.doc.manager=frm.doc.parent_supplier
+		if (frm.doc.is_member == 1) {
+			frm.doc.manager = frm.doc.parent_supplier
 			refresh_field("manager")
 		}
+	},
+	supplier_primary_contact(frm){
+		update_product_fields(frm)
 	}
-
 })
+
+function update_product_fields(frm){
+	frm.doc.coordinator_name=frm.doc.supplier_primary_contact
+	frm.doc.cooridnator_email_id=frm.doc.email_id
+	frm.refresh_fields()
+}
+
+function update_factory_details(frm){
+	if (frm.doc.is_factory_location == 0) {
+		frm.doc.supplier_id = ''
+		refresh_field("supplier_id");
+	}
+	else if (!frm.doc.__islocal &&frm.doc.is_factory_location == 1 ) {
+		frm.doc.supplier_id = frm.doc.name
+		refresh_field("supplier_id");
+	}
+}

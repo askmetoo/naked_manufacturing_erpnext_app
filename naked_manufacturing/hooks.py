@@ -21,10 +21,20 @@ fixtures = ["Server Script",
 		"Supplier-designation",
 		"Supplier-contacts_details_",
 		"Supplier-contacts",
-		"Supplier-factory_name",
 		"Supplier-is_factory_location",
 		"Supplier-manager",
-		"Supplier-is_member"
+		"Supplier-is_member",
+		"Supplier-supplier_id",
+		"Supplier-supplier_product_management",
+		"Supplier-is_active_portal",
+		"Supplier-username",
+		"Supplier-password",
+		"Supplier-cooridnator_email_id",
+		"Supplier-coordinator_name",
+		"Supplier-product_reports",
+		"Supplier-line_break",
+		"Supplier-line_break_1",
+		"Supplier-factory"
 	]
 	]
 ]

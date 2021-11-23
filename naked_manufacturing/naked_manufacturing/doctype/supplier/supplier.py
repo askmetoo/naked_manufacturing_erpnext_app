@@ -35,7 +35,14 @@ def onload(doc):
                                     'designation': row.designation, 'email_id': row.email_id, 'mobile_no': row.mobile_no})
         if contacts:
             contact_details = get_contact_details(contacts)
-            return contact_details
+            line_break = add_line_break(doc)
+            return contact_details,line_break
+    
+    
+def add_line_break(doc):
+    return frappe.render_template(
+    "templates/includes/line_divider.html", {'doc': doc}
+)
 
 
 def get_contact_details(doc):

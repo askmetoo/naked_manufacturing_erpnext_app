@@ -30,19 +30,19 @@ def onload(doc):
                             'designation': documents.designation, 'email_id': documents.email_id, 'mobile_no': documents.mobile_no})
         for row in supplier_list:
             if row not in contacts:
-                if row.supplier_primary_contact != None :
+                if row.supplier_primary_contact != None:
                     contacts.append({'supplier_primary_contact': row.supplier_primary_contact,
                                     'designation': row.designation, 'email_id': row.email_id, 'mobile_no': row.mobile_no})
         if contacts:
             contact_details = get_contact_details(contacts)
-            line_break = add_line_break(doc)
-            return contact_details,line_break
-    
-    
+           # line_break = add_line_break(doc)
+            return contact_details
+
+
 def add_line_break(doc):
     return frappe.render_template(
-    "templates/includes/line_divider.html", {'doc': doc}
-)
+        "templates/includes/line_divider.html", {'doc': doc}
+    )
 
 
 def get_contact_details(doc):

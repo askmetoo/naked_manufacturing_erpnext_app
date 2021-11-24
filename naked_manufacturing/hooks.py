@@ -23,7 +23,7 @@ fixtures = ["Server Script",
 		"Supplier-contacts",
 		"Supplier-is_factory_location",
 		"Supplier-manager",
-		"Supplier-is_member",
+		"Supplier-is_manager",
 		"Supplier-supplier_id",
 		"Supplier-supplier_product_management",
 		"Supplier-is_active_portal",
@@ -34,7 +34,11 @@ fixtures = ["Server Script",
 		"Supplier-product_reports",
 		"Supplier-line_break",
 		"Supplier-line_break_1",
-		"Supplier-factory"
+		"Supplier-factory",
+		"Supplier-column_break_33",
+		"Supplier-report_manager",
+		"Supplier-product_lookup",
+		"Supplier-report_member_details"
 	]
 	]
 ]

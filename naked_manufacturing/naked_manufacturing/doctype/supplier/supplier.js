@@ -112,6 +112,9 @@ frappe.ui.form.on('Supplier', {
 	},
 	supplier_primary_contact(frm) {
 		update_product_fields(frm)
+	},
+	coordinator_name:function(frm){
+		//frappe.dynamic_link = { doc: frm.doc, fieldname: 'coordinator_name', doctype: 'Supplier' }
 	}
 })
 
@@ -122,6 +125,10 @@ function update_product_fields(frm) {
 }
 
 function update_factory_details(frm) {
+	if(frm.doc.is_manager==0){
+		frm.doc.is_factory_location = 1
+		frm.refresh_field("is_factory_location");
+	}
 	if (frm.doc.is_factory_location == 0) {
 		frm.doc.supplier_id = ''
 		frm.refresh_field("supplier_id");

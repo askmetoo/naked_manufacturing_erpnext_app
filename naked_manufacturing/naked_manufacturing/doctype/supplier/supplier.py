@@ -35,14 +35,7 @@ def onload(doc):
                                     'designation': row.designation, 'email_id': row.email_id, 'mobile_no': row.mobile_no})
         if contacts:
             contact_details = get_contact_details(contacts)
-           # line_break = add_line_break(doc)
             return contact_details
-
-
-def add_line_break(doc):
-    return frappe.render_template(
-        "templates/includes/line_divider.html", {'doc': doc}
-    )
 
 
 def get_contact_details(doc):
@@ -70,3 +63,18 @@ def delete_child_supplier_details(name, parent_supplier):
                 'city': row.city
             })
             supplier_doc.save()
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_coordinator_email(doctype, txt, searchfield, start, page_len, filters):
+    supplier = filters.get("parent")
+    return frappe.db.sql("""
+        SELECT
+           `tabContact Email`.name from `tabContact Email`
+        WHERE
+            parent=%(supplier)s
+            and parenttype='Contact'
+        """, {
+        'supplier': supplier,
+    })

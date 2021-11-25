@@ -32,13 +32,13 @@ fixtures = ["Server Script",
 		"Supplier-cooridnator_email_id",
 		"Supplier-coordinator_name",
 		"Supplier-product_reports",
-		"Supplier-line_break",
-		"Supplier-line_break_1",
-		"Supplier-factory",
 		"Supplier-column_break_33",
 		"Supplier-report_manager",
 		"Supplier-product_lookup",
-		"Supplier-report_member_details"
+		"Supplier-report_member_details",
+		"Supplier-display_name",
+		"Supplier-supplier_portal",
+		"Supplier-coordinator_email"
 	]
 	]
 ]
@@ -55,7 +55,8 @@ fixtures = ["Server Script",
 }
 ]
 doctype_js = {
-	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
+	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js",
+	"Contact" : "naked_manufacturing/doctype/contact/contact.js"
 }
 
 # Includes in <head>

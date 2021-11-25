@@ -1,4 +1,3 @@
-frappe.provide("naked_manufacturing.supplier");
 var parent_supplier;
 var report_manager;
 frappe.ui.form.on('Supplier', {
@@ -54,12 +53,8 @@ frappe.ui.form.on('Supplier', {
 				},
 				async: false,
 				callback: function (r) {
-					if (r.length > 0) {
-						frm.set_df_property('contacts_details_', 'options', r.message)
-						//frm.set_df_property('line_break', 'options', r.message[1])
-						//frm.set_df_property('line_break_1', 'options', r.message[1])
-						frm.refresh_fields();
-					}
+					frm.set_df_property('contacts_details_', 'options', r.message)
+					frm.refresh_fields();
 				}
 			});
 			if (frm.doc.supplier_primary_contact != undefined) {
@@ -71,14 +66,8 @@ frappe.ui.form.on('Supplier', {
 				update_factory_details(frm)
 			}
 		}
-		frm.set_query("report_manager", function () {
-			return {
-				filters: {
-					"is_manager": 1,
-					"parent_supplier": frm.doc.parent_supplier
-				}
-			};
-		});
+		add_filter_for_report_manager(frm)
+		update_filter(frm)
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -93,6 +82,7 @@ frappe.ui.form.on('Supplier', {
 				}
 			})
 		}
+		add_filter_for_report_manager(frm)
 	},
 	is_factory_location: function (frm) {
 		update_factory_details(frm)
@@ -110,11 +100,14 @@ frappe.ui.form.on('Supplier', {
 			frm.refresh_field("is_factory_location");
 		}
 	},
-	supplier_primary_contact(frm) {
+	supplier_primary_contact: function (frm) {
 		update_product_fields(frm)
 	},
-	coordinator_name:function(frm){
-		//frappe.dynamic_link = { doc: frm.doc, fieldname: 'coordinator_name', doctype: 'Supplier' }
+	coordinator_name: function (frm) {
+		update_filter(frm)
+	},
+	supplier_name: function (frm) {
+		update_filter(frm)
 	}
 })
 
@@ -125,7 +118,7 @@ function update_product_fields(frm) {
 }
 
 function update_factory_details(frm) {
-	if(frm.doc.is_manager==0){
+	if (frm.doc.is_manager == 0) {
 		frm.doc.is_factory_location = 1
 		frm.refresh_field("is_factory_location");
 	}
@@ -137,4 +130,60 @@ function update_factory_details(frm) {
 		frm.doc.supplier_id = frm.doc.name
 		frm.refresh_field("supplier_id");
 	}
+}
+
+function add_filter_for_report_manager(frm) {
+	var supplier = []
+	frappe.call({
+		method: "frappe.client.get_list",
+		"async": false,
+		args: {
+			doctype: "Supplier",
+			fields: ["name"],
+			filters: {
+				'parent_supplier': frm.doc.parent_supplier,
+				'is_manager': 1
+			},
+			"limit_page_length": 0
+		},
+		callback: function (r) {
+			for (var i = 0; i < r.message.length; i++) {
+				if (!supplier.includes(r.message[i].name)) {
+					supplier.push(r.message[i].name)
+				}
+			}
+			if (!supplier.includes(frm.doc.parent_supplier)) {
+				supplier.push(frm.doc.parent_supplier)
+			}
+		}
+	});
+
+	frm.set_query("report_manager", function () {
+		return {
+			filters: {
+				"is_manager": 1,
+				"name": ["in", supplier]
+			}
+		};
+	});
+}
+
+function update_filter(frm) {
+	frm.set_query("coordinator_name", function () {
+		return {
+			query: "erpnext.buying.doctype.supplier.supplier.get_supplier_primary_contact",
+			filters: {
+				"supplier": frm.doc.name
+			}
+		};
+	});
+	frm.set_query("coordinator_email", function () {
+		return {
+			query: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_coordinator_email",
+			filters: {
+				"parent": frm.doc.coordinator_name
+			}
+		};
+	});
+
 }

@@ -104,10 +104,26 @@ frappe.ui.form.on('Supplier', {
 		update_product_fields(frm)
 	},
 	coordinator_name: function (frm) {
-		update_filter(frm)
+		if(frm.doc.coordinator_name!=undefined){
+			update_filter(frm)
+		}
 	},
 	supplier_name: function (frm) {
 		update_filter(frm)
+	},
+	report_manager:function(frm){
+		if (frm.doc.report_manager != report_manager && report_manager !== undefined) {
+			frappe.call({
+				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.delete_report_member_details",
+				args: {
+					report_manager: report_manager,
+					name: frm.doc.name
+				},
+				async: false,
+				callback: function (r) {
+				}
+			})
+		}
 	}
 })
 

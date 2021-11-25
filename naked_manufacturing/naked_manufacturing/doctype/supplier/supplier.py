@@ -78,3 +78,8 @@ def get_coordinator_email(doctype, txt, searchfield, start, page_len, filters):
         """, {
         'supplier': supplier,
     })
+
+
+@frappe.whitelist()
+def delete_report_member_details(report_manager, name):
+    frappe.db.sql("""delete from `tabReport Member Details` where parent='{report_manager}' and supplier_name='{name}'""".format(report_manager=report_manager,name=name))

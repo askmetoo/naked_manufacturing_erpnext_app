@@ -22,21 +22,12 @@ class Supplier(Document):
 def onload(doc):
     documents = frappe.get_doc('Supplier', doc)
     if documents.meta.get_field("supplier_primary_contact"):
-        supplier_list = frappe.db.get_list(
-            'Supplier', filters={'parent_supplier': doc}, fields=['*'])
-        contacts = []
-        if documents.supplier_primary_contact != None:
-            contacts.append({'supplier_primary_contact': documents.supplier_primary_contact,
-                            'designation': documents.designation, 'email_id': documents.email_id, 'mobile_no': documents.mobile_no})
-        for row in supplier_list:
-            if row not in contacts:
-                if row.supplier_primary_contact != None:
-                    contacts.append({'supplier_primary_contact': row.supplier_primary_contact,
-                                    'designation': row.designation, 'email_id': row.email_id, 'mobile_no': row.mobile_no})
-        if contacts:
-            contact_details = get_contact_details(contacts)
+        contact_list=frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
+                INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
+                where  tdl.link_name ='{supplier}'""".format(supplier=doc),as_dict=True)
+        if contact_list:
+            contact_details = get_contact_details(contact_list)
             return contact_details
-
 
 def get_contact_details(doc):
     return frappe.render_template(

@@ -131,7 +131,7 @@ frappe.ui.form.on('Supplier', {
 function update_factory_details(frm) {
 	if (frm.doc.is_manager == 0|| frm.doc.is_manager ==undefined) {
 		frm.doc.is_factory_location = 1
-		frm.set_df_property("report_manager","reqd",1);
+		frm.doc.is_manager=0
 		frm.refresh_field("is_factory_location");
 	}
 	if (frm.doc.is_factory_location == 0) {
@@ -148,7 +148,7 @@ function update_product_fields(frm) {
 
 function add_filter_for_report_manager(frm) {
 	var supplier = []
-	if (frm.doc.parent_supplier != undefined) {
+	if (frm.doc.parent_supplier != undefined&&frm.doc.name!=undefined){
 		frappe.call({
 			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_report_manager",
 			"async": false,

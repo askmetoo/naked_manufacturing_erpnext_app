@@ -38,7 +38,7 @@ frappe.ui.form.on('Supplier', {
 				callback: function (r) {
 					if (r.message.length > 0) {
 						frappe.validated = false;
-						msgprint("Unable to change " + frm.doc.name + " from member to manager. Please change the Report manager prior to Is Manager uncheck.")
+						msgprint("Unable to change " + frm.doc.supplier_name + " from member to manager. Please change the Report manager prior to Is Manager uncheck.")
 					}
 				}
 			})
@@ -194,7 +194,6 @@ function render_template_contact(frm) {
 		});
 		if (frm.doc.supplier_primary_contact != undefined) {
 			frm.doc.coordinator_name = frm.doc.supplier_primary_contact
-			frm.doc.cooridnator_email_id = frm.doc.email_id
 			frm.refresh_fields()
 		}
 	}

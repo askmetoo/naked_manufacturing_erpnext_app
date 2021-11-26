@@ -20,22 +20,12 @@ class Supplier(Document):
 
 @frappe.whitelist()
 def onload(doc):
-    documents = frappe.get_doc('Supplier', doc)
-    if documents.meta.get_field("supplier_primary_contact"):
-        supplier_list = frappe.db.get_list(
-            'Supplier', filters={'parent_supplier': doc}, fields=['*'])
-        contacts = []
-        if documents.supplier_primary_contact != None:
-            contacts.append({'supplier_primary_contact': documents.supplier_primary_contact,
-                            'designation': documents.designation, 'email_id': documents.email_id, 'mobile_no': documents.mobile_no})
-        for row in supplier_list:
-            if row not in contacts:
-                if row.supplier_primary_contact != None :
-                    contacts.append({'supplier_primary_contact': row.supplier_primary_contact,
-                                    'designation': row.designation, 'email_id': row.email_id, 'mobile_no': row.mobile_no})
-        if contacts:
-            contact_details = get_contact_details(contacts)
-            return contact_details
+    contact_list = frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
+            INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
+            where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
+    if contact_list:
+        contact_details = get_contact_details(contact_list)
+        return contact_details
 
 
 def get_contact_details(doc):
@@ -63,3 +53,46 @@ def delete_child_supplier_details(name, parent_supplier):
                 'city': row.city
             })
             supplier_doc.save()
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_coordinator_email(doctype, txt, searchfield, start, page_len, filters):
+    supplier = filters.get("parent")
+    return frappe.db.sql("""
+        SELECT
+           `tabContact Email`.name from `tabContact Email`
+        WHERE
+            parent=%(supplier)s
+            and parenttype='Contact'
+        """, {
+        'supplier': supplier,
+    })
+
+
+@frappe.whitelist()
+def delete_report_member_details(report_manager, name):
+    frappe.db.sql("""delete from `tabReport Member Details` where parent='{report_manager}' and supplier_name='{name}'""".format(
+        report_manager=report_manager, name=name))
+
+
+@frappe.whitelist()
+def get_report_manager(name):
+    child_supplier = get_query_filter(name)
+    return child_supplier
+
+
+def get_query_filter(name):
+    supplier_list = []
+    if frappe.db.get_value('Supplier', {'is_manager': 1, 'name': name}, 'name') == name:
+        if name not in supplier_list:
+            supplier_list.append(name)
+    for supplier in frappe.db.get_list("Supplier", filters={"name": name}, fields={'parent_supplier'}):
+        if frappe.db.get_value('Supplier', {'is_manager': 1, 'name': supplier.parent_supplier}, 'name') == supplier.parent_supplier:
+            if supplier.parent_supplier not in supplier_list and supplier.parent_supplier!=None:
+                supplier_list.append(supplier.parent_supplier)
+        if supplier.parent_supplier:
+            for child_item_list in get_query_filter(supplier.parent_supplier):
+                if child_item_list not in supplier_list and supplier.parent_supplier!=None:
+                    supplier_list.append(child_item_list)
+    return supplier_list

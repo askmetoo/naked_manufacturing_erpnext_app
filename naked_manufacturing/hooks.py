@@ -20,14 +20,43 @@ fixtures = ["Server Script",
 		"Supplier-individual_supplier_detail",
 		"Supplier-designation",
 		"Supplier-contacts_details_",
-		"Supplier-contacts"
+		"Supplier-contacts",
+		"Supplier-is_factory_location",
+		"Supplier-manager",
+		"Supplier-is_manager",
+		"Supplier-supplier_id",
+		"Supplier-supplier_product_management",
+		"Supplier-is_active_portal",
+		"Supplier-username",
+		"Supplier-password",
+		"Supplier-cooridnator_email_id",
+		"Supplier-coordinator_name",
+		"Supplier-product_reports",
+		"Supplier-product_break",
+		"Supplier-report_manager",
+		"Supplier-product_lookup",
+		"Supplier-report_member_details",
+		"Supplier-display_name",
+		"Supplier-supplier_portal",
+		"Supplier-coordinator_email"
 	]
 	]
+]
+},
+{"dt": "Property Setter",
+		"filters":[
+	["name","in",[
+		"Supplier-address_contacts-label",
+		"Supplier-contact_html-permlevel"
+	]
+	]
+	
 ]
 }
 ]
 doctype_js = {
-	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js"
+	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js",
+	"Contact" : "naked_manufacturing/doctype/contact/contact.js"
 }
 
 # Includes in <head>

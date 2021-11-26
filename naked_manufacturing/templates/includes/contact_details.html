@@ -7,7 +7,7 @@
 {% for val in doc %}
     <tr>
        	 	<td>{% if val.name!=''%}
-			<a href="/app/contact/{{val.supplier_primary_contact}}">{{val.name}}{% endif %}</a>
+			<a href="/app/contact/{{val.name}}">{{val.name}}{% endif %}</a>
 		</td>
         	<td> {% if val.designation!=''%}{{val.designation }} {% endif %}</td>
         	<td> {% if val.email_id!='' %}{{ val.email_id}}{% endif %} </td>

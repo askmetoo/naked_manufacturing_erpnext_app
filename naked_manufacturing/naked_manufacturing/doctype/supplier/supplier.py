@@ -22,12 +22,13 @@ class Supplier(Document):
 def onload(doc):
     documents = frappe.get_doc('Supplier', doc)
     if documents.meta.get_field("supplier_primary_contact"):
-        contact_list=frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
+        contact_list = frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
                 INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
-                where  tdl.link_name ='{supplier}'""".format(supplier=doc),as_dict=True)
+                where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
         if contact_list:
             contact_details = get_contact_details(contact_list)
             return contact_details
+
 
 def get_contact_details(doc):
     return frappe.render_template(
@@ -73,4 +74,27 @@ def get_coordinator_email(doctype, txt, searchfield, start, page_len, filters):
 
 @frappe.whitelist()
 def delete_report_member_details(report_manager, name):
-    frappe.db.sql("""delete from `tabReport Member Details` where parent='{report_manager}' and supplier_name='{name}'""".format(report_manager=report_manager,name=name))
+    frappe.db.sql("""delete from `tabReport Member Details` where parent='{report_manager}' and supplier_name='{name}'""".format(
+        report_manager=report_manager, name=name))
+
+
+@frappe.whitelist()
+def get_report_manager(name):
+    child_supplier = get_query_filter(name)
+    return child_supplier
+
+
+def get_query_filter(name):
+    supplier_list = []
+    if frappe.db.get_value('Supplier', {'is_manager': 1, 'name': name}, 'name') == name:
+        if name not in supplier_list:
+            supplier_list.append(name)
+    for supplier in frappe.db.get_list("Supplier", filters={"name": name}, fields={'parent_supplier'}):
+        if frappe.db.get_value('Supplier', {'is_manager': 1, 'name': supplier.parent_supplier}, 'name') == supplier.parent_supplier:
+            if supplier.parent_supplier not in supplier_list and supplier.parent_supplier!=None:
+                supplier_list.append(supplier.parent_supplier)
+        if supplier.parent_supplier:
+            for child_item_list in get_query_filter(supplier.parent_supplier):
+                if child_item_list not in supplier_list and supplier.parent_supplier!=None:
+                    supplier_list.append(child_item_list)
+    return supplier_list

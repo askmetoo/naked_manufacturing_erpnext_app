@@ -13,7 +13,7 @@ frappe.ui.form.on('Supplier', {
 				]
 			}
 		}
-		update_factory_details(frm) 
+		update_factory_details(frm)
 		frm.get_field("individual_supplier_detail").grid.cannot_add_rows = true;
 		refresh_field("individual_supplier_details")
 	},
@@ -31,44 +31,26 @@ frappe.ui.form.on('Supplier', {
 					doctype: "Supplier",
 					fields: ["name"],
 					filters: {
-						'report_manager': frm.doc.supplier_name,
-						'is_manager': 1
+						'report_manager': frm.doc.name,
 					},
 					"limit_page_length": 0
 				},
 				callback: function (r) {
 					if (r.message.length > 0) {
 						frappe.validated = false;
-						msgprint("Supplier " + frm.doc.supplier_name + " is a manager.Not able to change as member")
+						msgprint("Unable to change " + frm.doc.name + " from member to manager. Please change the Report manager prior to Is Manager uncheck.")
 					}
 				}
 			})
 		}
 	},
 	refresh: function (frm) {
-		if (!frm.doc.__islocal) {
-			parent_supplier = frm.doc.parent_supplier
-			report_manager = frm.doc.report_manager
-			frappe.call({
-				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
-				args: {
-					doc: frm.doc.name
-				},
-				async: false,
-				callback: function (r) {
-					frm.set_df_property('contacts_details_', 'options', r.message)
-					frm.refresh_fields();
-				}
-			});
-			if (frm.doc.supplier_primary_contact != undefined) {
-				frm.doc.coordinator_name = frm.doc.supplier_primary_contact
-				frm.doc.cooridnator_email_id = frm.doc.email_id
-				frm.refresh_fields()
-			}
-		}
+		parent_supplier = frm.doc.parent_supplier
+		report_manager = frm.doc.report_manager
+		render_template_contact(frm)
 		add_filter_for_report_manager(frm)
 		update_filter(frm)
-		update_factory_details(frm) 
+		update_factory_details(frm)
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -95,6 +77,12 @@ frappe.ui.form.on('Supplier', {
 		if (frm.doc.is_manager == 0 && frm.doc.is_factory_location == 0) {
 			frm.doc.is_factory_location = 1
 			frm.refresh_field("is_factory_location");
+		}
+		if (frm.doc.is_manager == 0) {
+			frm.doc.report_manager = ''
+			frm.doc.product_lookup = ''
+			frm.refresh_field("report_manager")
+			frm.refresh_field("product_lookup")
 		}
 	},
 	supplier_primary_contact: function (frm) {
@@ -130,9 +118,9 @@ frappe.ui.form.on('Supplier', {
 	}
 })
 function update_factory_details(frm) {
-	if (frm.doc.is_manager == 0|| frm.doc.is_manager ==undefined) {
+	if (frm.doc.is_manager == 0 || frm.doc.is_manager == undefined) {
 		frm.doc.is_factory_location = 1
-		frm.doc.is_manager=0
+		frm.doc.is_manager = 0
 		frm.refresh_field("is_factory_location");
 	}
 }
@@ -145,7 +133,7 @@ function update_product_fields(frm) {
 
 function add_filter_for_report_manager(frm) {
 	var supplier = []
-	if (frm.doc.parent_supplier != undefined){
+	if (frm.doc.parent_supplier != undefined) {
 		frappe.call({
 			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_report_manager",
 			"async": false,
@@ -190,4 +178,24 @@ function update_filter(frm) {
 		};
 	});
 
+}
+function render_template_contact(frm) {
+	if (!frm.doc.__islocal) {
+		frappe.call({
+			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
+			args: {
+				doc: frm.doc.name
+			},
+			async: false,
+			callback: function (r) {
+				frm.set_df_property('contacts_details_', 'options', r.message)
+				frm.refresh_fields();
+			}
+		});
+		if (frm.doc.supplier_primary_contact != undefined) {
+			frm.doc.coordinator_name = frm.doc.supplier_primary_contact
+			frm.doc.cooridnator_email_id = frm.doc.email_id
+			frm.refresh_fields()
+		}
+	}
 }

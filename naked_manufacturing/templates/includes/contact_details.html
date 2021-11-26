@@ -1,3 +1,5 @@
+<html>
+<body>
 <table class="table table-bordered">
     <tr><th>Contact Name</th>
 	<th>Designation</th>
@@ -9,9 +11,11 @@
        	 	<td>{% if val.name!=''%}
 			<a href="/app/contact/{{val.name}}">{{val.name}}{% endif %}</a>
 		</td>
-        	<td> {% if val.designation!=''%}{{val.designation }} {% endif %}</td>
-        	<td> {% if val.email_id!='' %}{{ val.email_id}}{% endif %} </td>
-       		 <td>{% if val.mobile_no!=''%} {{ val.mobile_no}} {% endif %}</td>
+        	<td> {% if val.designation%}{{val.designation }} {% endif %}</td>
+        	<td> {% if val.email_id%}{{ val.email_id}}{% endif %} </td>
+       		 <td>{% if val.mobile_no%}{{ val.mobile_no}} {% endif %}</td>
     </tr>
 {% endfor%}
 </table>
+</body>
+</html>

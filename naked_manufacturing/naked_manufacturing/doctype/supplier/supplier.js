@@ -83,6 +83,7 @@ frappe.ui.form.on('Supplier', {
 				}
 			})
 		}
+		add_filter_for_report_manager(frm)
 	},
 	after_save: function (frm) {
 		if (frm.doc.is_manager == 1) {
@@ -134,10 +135,6 @@ function update_factory_details(frm) {
 		frm.doc.is_manager=0
 		frm.refresh_field("is_factory_location");
 	}
-	if (frm.doc.is_factory_location == 0) {
-		frm.doc.supplier_id = ''
-		frm.refresh_field("supplier_id");
-	}
 }
 
 function update_product_fields(frm) {
@@ -148,13 +145,12 @@ function update_product_fields(frm) {
 
 function add_filter_for_report_manager(frm) {
 	var supplier = []
-	if (frm.doc.parent_supplier != undefined&&frm.doc.name!=undefined){
+	if (frm.doc.parent_supplier != undefined){
 		frappe.call({
 			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_report_manager",
 			"async": false,
 			args: {
-				'name': frm.doc.name,
-				'parent_supplier': frm.doc.parent_supplier
+				'name': frm.doc.parent_supplier
 			},
 			callback: function (r) {
 				for (var i = 0; i < r.message.length; i++) {

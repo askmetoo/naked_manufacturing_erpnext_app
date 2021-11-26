@@ -20,14 +20,12 @@ class Supplier(Document):
 
 @frappe.whitelist()
 def onload(doc):
-    documents = frappe.get_doc('Supplier', doc)
-    if documents.meta.get_field("supplier_primary_contact"):
-        contact_list = frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
-                INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
-                where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
-        if contact_list:
-            contact_details = get_contact_details(contact_list)
-            return contact_details
+    contact_list = frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
+            INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
+            where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
+    if contact_list:
+        contact_details = get_contact_details(contact_list)
+        return contact_details
 
 
 def get_contact_details(doc):

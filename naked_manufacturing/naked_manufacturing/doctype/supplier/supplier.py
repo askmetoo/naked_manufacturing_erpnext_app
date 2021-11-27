@@ -23,10 +23,7 @@ def onload(doc):
     contact_list = frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
             INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
             where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
-    if contact_list:
-        contact_details = get_contact_details(contact_list)
-        return contact_details
-
+    return get_contact_details(contact_list)
 
 def get_contact_details(doc):
     return frappe.render_template(

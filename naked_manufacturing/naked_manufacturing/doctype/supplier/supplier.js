@@ -51,6 +51,14 @@ frappe.ui.form.on('Supplier', {
 		add_filter_for_report_manager(frm)
 		update_filter(frm)
 		update_factory_details(frm)
+		if (!frm.doc.__islocal) {
+			frm.add_custom_button(__("Browse Tree View"), function () {
+				frappe.route_options = {
+					"supplier": frm.doc.name
+				}
+				frappe.set_route("Tree", "Supplier");
+			});
+		}
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -115,6 +123,11 @@ frappe.ui.form.on('Supplier', {
 				}
 			})
 		}
+	},
+	new_supplier:function(frm){
+			var doc = frappe.model.get_new_doc('Supplier');
+			doc.parent_supplier= frm.doc.name;
+			frappe.set_route('Form', 'Supplier', doc.name);
 	}
 })
 function update_factory_details(frm) {
@@ -122,6 +135,10 @@ function update_factory_details(frm) {
 		frm.doc.is_factory_location = 1
 		frm.doc.is_manager = 0
 		frm.refresh_field("is_factory_location");
+	}
+	else if(frm.doc.is_manager==1&&frm.doc.is_factory_location==0){
+		frm.doc.supplier_id=''
+		frm.refresh_field("supplier_id")
 	}
 }
 

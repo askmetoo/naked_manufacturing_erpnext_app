@@ -7,11 +7,10 @@ import frappe
 from frappe.model.document import Document
 import json
 import erpnext
-from frappe.contacts.address_and_contact import (
-    delete_contact_and_address,
-    load_address_and_contact,
-)
 from frappe import _
+from collections import deque
+from operator import itemgetter
+from typing import List
 
 
 class Supplier(Document):
@@ -93,3 +92,21 @@ def get_query_filter(name):
                 if child_item_list not in supplier_list and supplier.parent_supplier!=None:
                     supplier_list.append(child_item_list)
     return supplier_list
+
+@frappe.whitelist()
+def get_children(doctype, parent=None, is_root=False, **filters):
+	if not parent or parent=="Supplier":
+		frappe.msgprint(_('Please select a Supplier'))
+		return
+
+	if parent:
+		frappe.form_dict.parent = parent
+
+	if frappe.form_dict.parent:
+		bom_doc = frappe.get_cached_doc("Supplier", frappe.form_dict.parent)
+		frappe.has_permission("Supplier", doc=bom_doc, throw=True)
+
+
+		supplier_items=[]
+
+		return supplier_items

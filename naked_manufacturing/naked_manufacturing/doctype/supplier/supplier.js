@@ -123,6 +123,11 @@ function update_factory_details(frm) {
 		frm.doc.is_manager = 0
 		frm.refresh_field("is_factory_location");
 	}
+	else if (frm.doc.is_manager == 1 && frm.doc.is_factory_location == 0) {
+		frm.doc.supplier_id = ''
+		frm.refresh_field("supplier_id")
+	}
+
 }
 
 function update_product_fields(frm) {
@@ -180,19 +185,19 @@ function update_filter(frm) {
 
 }
 function render_template_contact(frm) {
-		frappe.call({
-			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
-			args: {
-				doc: frm.doc.name
-			},
-			async: false,
-			callback: function (r) {
-				frm.set_df_property('contacts_details_', 'options', r.message)
-				frm.refresh_fields();
-			}
-		});
-		if (frm.doc.supplier_primary_contact != undefined) {
-			frm.doc.coordinator_name = frm.doc.supplier_primary_contact
-			frm.refresh_fields()
+	frappe.call({
+		method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
+		args: {
+			doc: frm.doc.name
+		},
+		async: false,
+		callback: function (r) {
+			frm.set_df_property('contacts_details_', 'options', r.message)
+			frm.refresh_fields();
 		}
+	});
+	if (frm.doc.supplier_primary_contact != undefined) {
+		frm.doc.coordinator_name = frm.doc.supplier_primary_contact
+		frm.refresh_fields()
+	}
 }

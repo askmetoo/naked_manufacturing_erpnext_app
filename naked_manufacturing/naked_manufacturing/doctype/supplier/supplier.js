@@ -180,7 +180,6 @@ function update_filter(frm) {
 
 }
 function render_template_contact(frm) {
-	if (!frm.doc.__islocal) {
 		frappe.call({
 			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
 			args: {
@@ -196,5 +195,4 @@ function render_template_contact(frm) {
 			frm.doc.coordinator_name = frm.doc.supplier_primary_contact
 			frm.refresh_fields()
 		}
-	}
 }

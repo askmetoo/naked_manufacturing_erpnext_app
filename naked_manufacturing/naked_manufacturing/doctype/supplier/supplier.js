@@ -51,14 +51,6 @@ frappe.ui.form.on('Supplier', {
 		add_filter_for_report_manager(frm)
 		update_filter(frm)
 		update_factory_details(frm)
-		if (!frm.doc.__islocal) {
-			frm.add_custom_button(__("Browse Tree View"), function () {
-				frappe.route_options = {
-					"supplier": frm.doc.name
-				}
-				frappe.set_route("Tree", "Supplier");
-			});
-		}
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {

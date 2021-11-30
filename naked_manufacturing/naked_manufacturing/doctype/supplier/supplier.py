@@ -8,10 +8,6 @@ from frappe.model.document import Document
 import json
 import erpnext
 from frappe import _
-from collections import deque
-from operator import itemgetter
-from typing import List
-
 
 class Supplier(Document):
     pass
@@ -95,18 +91,18 @@ def get_query_filter(name):
 
 @frappe.whitelist()
 def get_children(doctype, parent=None, is_root=False, **filters):
-	if not parent or parent=="Supplier":
-		frappe.msgprint(_('Please select a Supplier'))
-		return
+    if not parent or parent=="Supplier":
+        frappe.msgprint(_('Please select a Supplier'))
+        return
+    if parent:
+        frappe.form_dict.parent = parent
 
-	if parent:
-		frappe.form_dict.parent = parent
-
-	if frappe.form_dict.parent:
-		bom_doc = frappe.get_cached_doc("Supplier", frappe.form_dict.parent)
-		frappe.has_permission("Supplier", doc=bom_doc, throw=True)
-
-
-		supplier_items=[]
-
-		return supplier_items
+    if frappe.form_dict.parent:
+        supplier_doc = frappe.get_cached_doc("Supplier", frappe.form_dict.parent)
+        frappe.has_permission("Supplier", doc=supplier_doc, throw=True)
+        supplier_list=[]
+        child_supplier=frappe.db.get_list("Supplier", filters={"parent_supplier": parent}, fields={'name'})
+        if child_supplier:
+            if child_supplier not in supplier_list:
+                supplier_list.append(child_supplier)
+            return supplier_list

@@ -15,7 +15,9 @@ frappe.ui.form.on('Supplier', {
 		}
 		update_factory_details(frm)
 		frm.get_field("individual_supplier_detail").grid.cannot_add_rows = true;
-		refresh_field("individual_supplier_details")
+		refresh_field("individual_supplier_detail")
+		frm.get_field("report_member_details").grid.cannot_add_rows = true;
+	    refresh_field("report_member_details")
 	},
 	before_save: function (frm) {
 		frappe.db.get_value('Supplier', frm.doc.parent_supplier, 'parent_supplier', (s) => {
@@ -72,6 +74,13 @@ frappe.ui.form.on('Supplier', {
 			frm.doc.report_manager = frm.doc.name
 			frm.refresh_field("report_manager")
 		}
+		if(frm.doc.is_child==1){
+			frm.doc.is_child=0;
+			frm.refresh_field()
+			frm.save()
+			frappe.set_route('Form', 'Supplier',frm.doc.parent_supplier);
+			frm.refresh_doc()
+		}
 	},
 	is_manager: function (frm) {
 		if (frm.doc.is_manager == 0 && frm.doc.is_factory_location == 0) {
@@ -119,6 +128,7 @@ frappe.ui.form.on('Supplier', {
 	new_supplier:function(frm){
 			var doc = frappe.model.get_new_doc('Supplier');
 			doc.parent_supplier= frm.doc.name;
+			doc.is_child=1
 			frappe.set_route('Form', 'Supplier', doc.name);
 	}
 })

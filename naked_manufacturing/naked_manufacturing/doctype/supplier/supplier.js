@@ -75,11 +75,19 @@ frappe.ui.form.on('Supplier', {
 			frm.refresh_field("report_manager")
 		}
 		if(frm.doc.is_child==1){
-			frm.doc.is_child=0;
-			frm.refresh_field()
-			frm.save()
+			var name=frm.doc.name
 			frappe.set_route('Form', 'Supplier',frm.doc.parent_supplier);
-			frm.refresh_doc()
+			window.location.reload();
+			frappe.call({
+				"method": "frappe.client.set_value",
+				"async":false,
+				"args": {
+				"doctype": 'Supplier',
+				"name": name,
+				"fieldname": "is_child",
+				"value": 0
+				}
+			});
 		}
 	},
 	is_manager: function (frm) {

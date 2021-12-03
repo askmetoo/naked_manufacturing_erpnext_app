@@ -15,7 +15,9 @@ frappe.ui.form.on('Supplier', {
 		}
 		update_factory_details(frm)
 		frm.get_field("individual_supplier_detail").grid.cannot_add_rows = true;
-		refresh_field("individual_supplier_details")
+		refresh_field("individual_supplier_detail")
+		frm.get_field("report_member_details").grid.cannot_add_rows = true;
+	    refresh_field("report_member_details")
 	},
 	before_save: function (frm) {
 		frappe.db.get_value('Supplier', frm.doc.parent_supplier, 'parent_supplier', (s) => {
@@ -72,6 +74,21 @@ frappe.ui.form.on('Supplier', {
 			frm.doc.report_manager = frm.doc.name
 			frm.refresh_field("report_manager")
 		}
+		if(frm.doc.is_child==1){
+			var name=frm.doc.name
+			frappe.set_route('Form', 'Supplier',frm.doc.parent_supplier);
+			window.location.reload();
+			frappe.call({
+				"method": "frappe.client.set_value",
+				"async":false,
+				"args": {
+				"doctype": 'Supplier',
+				"name": name,
+				"fieldname": "is_child",
+				"value": 0
+				}
+			});
+		}
 	},
 	is_manager: function (frm) {
 		if (frm.doc.is_manager == 0 && frm.doc.is_factory_location == 0) {
@@ -85,10 +102,11 @@ frappe.ui.form.on('Supplier', {
 			frm.refresh_field("product_lookup")
 		}
 	},
-	supplier_primary_contact: function (frm) {
-		update_product_fields(frm)
-	},
 	coordinator_name: function (frm) {
+		if(frm.doc.coordinator_email!=undefined){
+			frm.doc.coordinator_email=''
+			frm.refresh_field('coordinator_email')
+		}
 		if (frm.doc.coordinator_name != undefined) {
 			update_filter(frm)
 		}
@@ -115,6 +133,12 @@ frappe.ui.form.on('Supplier', {
 				}
 			})
 		}
+	},
+	new_supplier:function(frm){
+			var doc = frappe.model.get_new_doc('Supplier');
+			doc.parent_supplier= frm.doc.name;
+			doc.is_child=1
+			frappe.set_route('Form', 'Supplier', doc.name);
 	}
 })
 function update_factory_details(frm) {
@@ -123,12 +147,10 @@ function update_factory_details(frm) {
 		frm.doc.is_manager = 0
 		frm.refresh_field("is_factory_location");
 	}
-}
-
-function update_product_fields(frm) {
-	frm.doc.coordinator_name = frm.doc.supplier_primary_contact
-	frm.doc.cooridnator_email_id = frm.doc.email_id
-	frm.refresh_fields()
+	else if(frm.doc.is_manager==1&&frm.doc.is_factory_location==0){
+		frm.doc.supplier_id=''
+		frm.refresh_field("supplier_id")
+	}
 }
 
 function add_filter_for_report_manager(frm) {
@@ -180,21 +202,19 @@ function update_filter(frm) {
 
 }
 function render_template_contact(frm) {
-	if (!frm.doc.__islocal) {
-		frappe.call({
-			method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
-			args: {
-				doc: frm.doc.name
-			},
-			async: false,
-			callback: function (r) {
-				frm.set_df_property('contacts_details_', 'options', r.message)
-				frm.refresh_fields();
-			}
-		});
-		if (frm.doc.supplier_primary_contact != undefined) {
-			frm.doc.coordinator_name = frm.doc.supplier_primary_contact
-			frm.refresh_fields()
+	frappe.call({
+		method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.onload",
+		args: {
+			doc: frm.doc.name
+		},
+		async: false,
+		callback: function (r) {
+			frm.set_df_property('contacts_details_', 'options', r.message)
+			frm.refresh_fields();
 		}
+	});
+	if (frm.doc.supplier_primary_contact != undefined) {
+		frm.doc.coordinator_name = frm.doc.supplier_primary_contact
+		frm.refresh_fields()
 	}
 }

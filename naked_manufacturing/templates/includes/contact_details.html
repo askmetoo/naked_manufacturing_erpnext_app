@@ -1,5 +1,6 @@
 <html>
 <body>
+{% if doc !=[]%}
 <table class="table table-bordered">
     <tr><th>Contact Name</th>
 	<th>Designation</th>
@@ -17,5 +18,9 @@
     </tr>
 {% endfor%}
 </table>
+{%endif%}
+<p>
+<a href="/app/contact/new-contact-1"><button id="new_contact_button" class="btn btn-xs btn-default btn-contact">New Contact</button></a>
+</p>
 </body>
 </html>

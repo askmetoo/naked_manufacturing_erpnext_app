@@ -102,10 +102,11 @@ frappe.ui.form.on('Supplier', {
 			frm.refresh_field("product_lookup")
 		}
 	},
-	supplier_primary_contact: function (frm) {
-		update_product_fields(frm)
-	},
 	coordinator_name: function (frm) {
+		if(frm.doc.coordinator_email!=undefined){
+			frm.doc.coordinator_email=''
+			frm.refresh_field('coordinator_email')
+		}
 		if (frm.doc.coordinator_name != undefined) {
 			update_filter(frm)
 		}
@@ -150,12 +151,6 @@ function update_factory_details(frm) {
 		frm.doc.supplier_id=''
 		frm.refresh_field("supplier_id")
 	}
-}
-
-function update_product_fields(frm) {
-	frm.doc.coordinator_name = frm.doc.supplier_primary_contact
-	frm.doc.cooridnator_email_id = frm.doc.email_id
-	frm.refresh_fields()
 }
 
 function add_filter_for_report_manager(frm) {

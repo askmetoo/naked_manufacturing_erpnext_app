@@ -7,12 +7,7 @@ import frappe
 from frappe.model.document import Document
 import json
 import erpnext
-from frappe.contacts.address_and_contact import (
-    delete_contact_and_address,
-    load_address_and_contact,
-)
 from frappe import _
-
 
 class Supplier(Document):
     pass
@@ -23,10 +18,7 @@ def onload(doc):
     contact_list = frappe.db.sql(""" select c.name,c.designation ,c.email_id,c.mobile_no from `tabContact`c 
             INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
             where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
-    if contact_list:
-        contact_details = get_contact_details(contact_list)
-        return contact_details
-
+    return get_contact_details(contact_list)
 
 def get_contact_details(doc):
     return frappe.render_template(
@@ -96,3 +88,21 @@ def get_query_filter(name):
                 if child_item_list not in supplier_list and supplier.parent_supplier!=None:
                     supplier_list.append(child_item_list)
     return supplier_list
+
+@frappe.whitelist()
+def get_children(doctype, parent=None, is_root=False, **filters):
+    if not parent or parent=="Supplier":
+        frappe.msgprint(_('Please select a Supplier'))
+        return
+    if parent:
+        frappe.form_dict.parent = parent
+
+    if frappe.form_dict.parent:
+        supplier_doc = frappe.get_cached_doc("Supplier", frappe.form_dict.parent)
+        frappe.has_permission("Supplier", doc=supplier_doc, throw=True)
+        supplier_list=[]
+        child_supplier=frappe.db.get_list("Supplier", filters={"parent_supplier": parent}, fields={'name'})
+        if child_supplier:
+            if child_supplier not in supplier_list:
+                supplier_list.append(child_supplier)
+            return supplier_list

@@ -9,6 +9,7 @@ import json
 import erpnext
 from frappe import _
 
+
 class Supplier(Document):
     pass
 
@@ -19,6 +20,7 @@ def onload(doc):
             INNER JOIN `tabDynamic Link` tdl  on c.name=tdl.parent
             where  tdl.link_name ='{supplier}'""".format(supplier=doc), as_dict=True)
     return get_contact_details(contact_list)
+
 
 def get_contact_details(doc):
     return frappe.render_template(
@@ -81,28 +83,59 @@ def get_query_filter(name):
             supplier_list.append(name)
     for supplier in frappe.db.get_list("Supplier", filters={"name": name}, fields={'parent_supplier'}):
         if frappe.db.get_value('Supplier', {'is_manager': 1, 'name': supplier.parent_supplier}, 'name') == supplier.parent_supplier:
-            if supplier.parent_supplier not in supplier_list and supplier.parent_supplier!=None:
+            if supplier.parent_supplier not in supplier_list and supplier.parent_supplier != None:
                 supplier_list.append(supplier.parent_supplier)
         if supplier.parent_supplier:
             for child_item_list in get_query_filter(supplier.parent_supplier):
-                if child_item_list not in supplier_list and supplier.parent_supplier!=None:
+                if child_item_list not in supplier_list and supplier.parent_supplier != None:
                     supplier_list.append(child_item_list)
     return supplier_list
 
+
 @frappe.whitelist()
 def get_children(doctype, parent=None, is_root=False, **filters):
-    if not parent or parent=="Supplier":
+    if not parent or parent == "Supplier":
         frappe.msgprint(_('Please select a Supplier'))
         return
     if parent:
         frappe.form_dict.parent = parent
 
     if frappe.form_dict.parent:
-        supplier_doc = frappe.get_cached_doc("Supplier", frappe.form_dict.parent)
+        supplier_doc = frappe.get_cached_doc(
+            "Supplier", frappe.form_dict.parent)
         frappe.has_permission("Supplier", doc=supplier_doc, throw=True)
-        supplier_list=[]
-        child_supplier=frappe.db.get_list("Supplier", filters={"parent_supplier": parent}, fields={'name'})
+        supplier_list = []
+        child_supplier = frappe.db.get_list(
+            "Supplier", filters={"parent_supplier": parent}, fields={'name'})
         if child_supplier:
             if child_supplier not in supplier_list:
                 supplier_list.append(child_supplier)
             return supplier_list
+
+
+@frappe.whitelist()
+def get_root_supplier(supplier):
+    root_supplier = supplier
+    parent = frappe.db.get_value(
+        'Supplier', {'name': supplier}, 'parent_Supplier')
+    if parent:
+        root_supplier = get_root_supplier(parent)
+    return root_supplier
+
+
+@frappe.whitelist()
+def get_descendents(parent=None, is_root=False, **filters):
+    if parent:
+        supplier_doc = frappe.get_cached_doc(
+            "Supplier", frappe.form_dict.parent)
+        frappe.has_permission("Supplier", doc=supplier_doc, throw=True)
+        child_suppliers = frappe.get_all('Supplier',
+                                         fields=['parent_supplier',
+                                                 'name as value'],
+                                         filters=[
+                                             ['parent_supplier', '=', parent]],
+                                         order_by='idx')
+        for supplier in child_suppliers:
+            supplier.expanded = 0 if supplier.value in ('', None) else 1
+            supplier.expandable = 0 if supplier.value in ('', None) else 1
+        return child_suppliers

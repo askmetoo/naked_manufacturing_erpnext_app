@@ -53,6 +53,13 @@ frappe.ui.form.on('Supplier', {
 		add_filter_for_report_manager(frm)
 		update_filter(frm)
 		update_factory_details(frm)
+		if(frm.doc.is_active_portal==0){
+			if((frm.doc.username||frm.doc.password)!=undefined){
+				frm.doc.username=undefined
+				frm.doc.password=undefined
+				frm.refresh_fields()
+			}
+		}
 		var supplier = frm.doc.name
 		if (!frm.doc.__islocal) {
 			frappe.call({

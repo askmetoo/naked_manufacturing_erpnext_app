@@ -21,5 +21,22 @@ frappe.treeview_settings["Supplier"] = {
         }
     },
     onrender: function (node) {
-    }
+    },
+    onload: function(me) {
+		var label = frappe.get_route()[0] + "/" + frappe.get_route()[1];
+		if(frappe.pages[label]) {
+			delete frappe.pages[label];
+		}
+
+		var filter = me.opts.filters[0];
+		if(frappe.route_options && frappe.route_options[filter.fieldname]) {
+			var val = frappe.route_options[filter.fieldname];
+			delete frappe.route_options[filter.fieldname];
+			filter.default = "";
+			me.args[filter.fieldname] = val;
+			me.root_label = val;
+			me.page.set_title(val);
+		}
+		me.make_tree();
+	},
 }

@@ -53,14 +53,14 @@ frappe.ui.form.on('Supplier', {
 		add_filter_for_report_manager(frm)
 		update_filter(frm)
 		update_factory_details(frm)
-		if(frm.doc.is_active_portal==0){
-			if((frm.doc.username||frm.doc.password)!=undefined){
-				frm.doc.username=undefined
-				frm.doc.password=undefined
+		if (frm.doc.is_active_portal == 0) {
+			if ((frm.doc.username || frm.doc.password) != undefined) {
+				frm.doc.username = undefined
+				frm.doc.password = undefined
 				frm.refresh_fields()
 			}
 		}
-		var supplier = frm.doc.name
+		var supplier
 		if (!frm.doc.__islocal) {
 			frappe.call({
 				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_root_supplier",
@@ -72,13 +72,13 @@ frappe.ui.form.on('Supplier', {
 					supplier = r.message
 				}
 			})
-			frm.add_custom_button(__("Hierarchy"), function () {
-				frappe.route_options = {
-					"supplier_name": supplier
-				};
-				frappe.set_route("Tree", "Supplier");
-			});
 		}
+		frm.add_custom_button(__("Hierarchy"), function () {
+			frappe.route_options = {
+				"supplier_name": supplier
+			};
+			frappe.set_route("Tree", "Supplier");
+		});
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -165,6 +165,28 @@ frappe.ui.form.on('Supplier', {
 		doc.parent_supplier = frm.doc.name;
 		doc.is_child = 1
 		frappe.set_route('Form', 'Supplier', doc.name);
+	},
+	is_group: function (frm) {
+		if (frm.doc.is_group == 0) {
+			frappe.call({
+				method: "frappe.client.get_list",
+				args: {
+					doctype: "Supplier",
+					fields: ["name"],
+					filters: {
+						'parent_supplier': frm.doc.name,
+					},
+					"limit_page_length": 0
+				},
+				callback: function (r) {
+					if (r.message.length > 0) {
+						frm.set_value("is_group", 1)
+						frappe.validated = false;
+						msgprint("Unable to change " + frm.doc.supplier_name + " from parent to child.")
+					}
+				}
+			})
+		}
 	}
 })
 function update_factory_details(frm) {

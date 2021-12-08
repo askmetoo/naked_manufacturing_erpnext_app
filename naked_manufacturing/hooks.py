@@ -61,6 +61,7 @@ doctype_js = {
 	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js",
 	"Contact" : "naked_manufacturing/doctype/contact/contact.js"
 }
+doctype_tree_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_tree.js"}
 
 # Includes in <head>
 # ------------------
@@ -86,7 +87,6 @@ doctype_js = {
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-doctype_tree_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
 # Home Pages

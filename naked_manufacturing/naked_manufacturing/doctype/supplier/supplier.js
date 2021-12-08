@@ -72,7 +72,7 @@ frappe.ui.form.on('Supplier', {
 					supplier = r.message
 				}
 			})
-			frm.add_custom_button(__("Browse Tree View"), function () {
+			frm.add_custom_button(__("Hierarchy"), function () {
 				frappe.route_options = {
 					"supplier_name": supplier
 				};

@@ -14,7 +14,7 @@ frappe.treeview_settings["Supplier"] = {
     disable_add_node: true,
     root_label: "Supplier",//fieldname from filters
     get_tree_root: true,
-    show_expand_all: false,
+    show_expand_all: true,
     get_label: function (node) {
         if (node.data.value) {
             return node.data.value

@@ -124,18 +124,18 @@ def get_root_supplier(supplier):
 
 
 @frappe.whitelist()
-def get_descendents(parent=None, is_root=False, **filters):
+def get_descendents(doctype,parent=None, **filters):
     if parent:
         supplier_doc = frappe.get_cached_doc(
             "Supplier", frappe.form_dict.parent)
         frappe.has_permission("Supplier", doc=supplier_doc, throw=True)
         child_suppliers = frappe.get_all('Supplier',
-                                         fields=['parent_supplier',
-                                                 'name as value'],
-                                         filters=[
-                                             ['parent_supplier', '=', parent]],
-                                         order_by='idx')
+                                        fields=['parent_supplier',
+                                                'name as value','is_group'],
+                                        filters=[
+                                            ['parent_supplier', '=', parent]],
+                                        order_by='idx')
         for supplier in child_suppliers:
-            supplier.expanded = 0 if supplier.value in ('', None) else 1
-            supplier.expandable = 0 if supplier.value in ('', None) else 1
+            supplier.expanded = 0 if supplier.is_group==0 else 1
+            supplier.expandable = 0 if supplier.is_group==0  else 1
         return child_suppliers

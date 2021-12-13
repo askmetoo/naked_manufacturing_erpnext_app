@@ -2,9 +2,6 @@ var parent_supplier;
 var report_manager;
 frappe.ui.form.on('Supplier', {
 	onload: function (frm) {
-		frm.list_route = "Tree/Supplier";
-
-		//get query select item group
 		frm.fields_dict['parent_supplier'].get_query = function (doc, cdt, cdn) {
 			return {
 				filters: [
@@ -60,7 +57,8 @@ frappe.ui.form.on('Supplier', {
 				frm.refresh_fields()
 			}
 		}
-		var supplier
+		var supplier=''
+		sessionStorage.setItem("Supplier Name",frm.doc.name);
 		if (!frm.doc.__islocal) {
 			frappe.call({
 				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_root_supplier",
@@ -114,6 +112,19 @@ frappe.ui.form.on('Supplier', {
 					"value": 0
 				}
 			});
+		}
+		if(frm.doc.manager_id==undefined){
+			frappe.call({
+				"method": "frappe.client.set_value",
+				"async": false,
+				"args": {
+					"doctype": 'Supplier',
+					"name": frm.doc.name,
+					"fieldname": "manager_id",
+					"value": frm.doc.name
+				}
+			});
+			frm.refresh_field("manager_id")
 		}
 	},
 	is_manager: function (frm) {

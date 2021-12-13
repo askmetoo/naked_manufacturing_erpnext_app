@@ -17,6 +17,7 @@ frappe.treeview_settings["Supplier"] = {
     get_tree_root: false,
     show_expand_all: true,
     get_label: function (node) {
+        
         var supplier_name = sessionStorage.getItem("Supplier Name")
         if (node.data.value == supplier_name) {
             var supplier = '<b>' + node.data.value + '</b>'

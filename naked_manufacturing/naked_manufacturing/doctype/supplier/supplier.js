@@ -113,19 +113,7 @@ frappe.ui.form.on('Supplier', {
 				}
 			});
 		}
-		if(frm.doc.manager_id==undefined){
-			frappe.call({
-				"method": "frappe.client.set_value",
-				"async": false,
-				"args": {
-					"doctype": 'Supplier',
-					"name": frm.doc.name,
-					"fieldname": "manager_id",
-					"value": frm.doc.name
-				}
-			});
-			frm.refresh_field("manager_id")
-		}
+		
 	},
 	is_manager: function (frm) {
 		if (frm.doc.is_manager == 0 && frm.doc.is_factory_location == 0) {

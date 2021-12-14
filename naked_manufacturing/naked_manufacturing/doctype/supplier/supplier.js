@@ -2,9 +2,6 @@ var parent_supplier;
 var report_manager;
 frappe.ui.form.on('Supplier', {
 	onload: function (frm) {
-		frm.list_route = "Tree/Supplier";
-
-		//get query select item group
 		frm.fields_dict['parent_supplier'].get_query = function (doc, cdt, cdn) {
 			return {
 				filters: [
@@ -17,7 +14,7 @@ frappe.ui.form.on('Supplier', {
 		frm.get_field("individual_supplier_detail").grid.cannot_add_rows = true;
 		refresh_field("individual_supplier_detail")
 		frm.get_field("report_member_details").grid.cannot_add_rows = true;
-	    refresh_field("report_member_details")
+		refresh_field("report_member_details")
 	},
 	before_save: function (frm) {
 		frappe.db.get_value('Supplier', frm.doc.parent_supplier, 'parent_supplier', (s) => {
@@ -53,6 +50,33 @@ frappe.ui.form.on('Supplier', {
 		add_filter_for_report_manager(frm)
 		update_filter(frm)
 		update_factory_details(frm)
+		if (frm.doc.is_active_portal == 0) {
+			if ((frm.doc.username || frm.doc.password) != undefined) {
+				frm.doc.username = undefined
+				frm.doc.password = undefined
+				frm.refresh_fields()
+			}
+		}
+		var supplier=''
+		sessionStorage.setItem("Supplier Name",frm.doc.name);
+		if (!frm.doc.__islocal) {
+			frappe.call({
+				method: "naked_manufacturing.naked_manufacturing.doctype.supplier.supplier.get_root_supplier",
+				args: {
+					supplier: frm.doc.name
+				},
+				async: false,
+				callback: function (r) {
+					supplier = r.message
+				}
+			})
+		}
+		frm.add_custom_button(__("Hierarchy"), function () {
+			frappe.route_options = {
+				"supplier_name": supplier
+			};
+			frappe.set_route("Tree", "Supplier");
+		});
 	},
 	parent_supplier: function (frm) {
 		if (frm.doc.parent_supplier != parent_supplier && parent_supplier !== undefined) {
@@ -74,21 +98,22 @@ frappe.ui.form.on('Supplier', {
 			frm.doc.report_manager = frm.doc.name
 			frm.refresh_field("report_manager")
 		}
-		if(frm.doc.is_child==1){
-			var name=frm.doc.name
-			frappe.set_route('Form', 'Supplier',frm.doc.parent_supplier);
+		if (frm.doc.is_child == 1) {
+			var name = frm.doc.name
+			frappe.set_route('Form', 'Supplier', frm.doc.parent_supplier);
 			window.location.reload();
 			frappe.call({
 				"method": "frappe.client.set_value",
-				"async":false,
+				"async": false,
 				"args": {
-				"doctype": 'Supplier',
-				"name": name,
-				"fieldname": "is_child",
-				"value": 0
+					"doctype": 'Supplier',
+					"name": name,
+					"fieldname": "is_child",
+					"value": 0
 				}
 			});
 		}
+		
 	},
 	is_manager: function (frm) {
 		if (frm.doc.is_manager == 0 && frm.doc.is_factory_location == 0) {
@@ -103,8 +128,8 @@ frappe.ui.form.on('Supplier', {
 		}
 	},
 	coordinator_name: function (frm) {
-		if(frm.doc.coordinator_email!=undefined){
-			frm.doc.coordinator_email=''
+		if (frm.doc.coordinator_email != undefined) {
+			frm.doc.coordinator_email = ''
 			frm.refresh_field('coordinator_email')
 		}
 		if (frm.doc.coordinator_name != undefined) {
@@ -134,11 +159,33 @@ frappe.ui.form.on('Supplier', {
 			})
 		}
 	},
-	new_supplier:function(frm){
-			var doc = frappe.model.get_new_doc('Supplier');
-			doc.parent_supplier= frm.doc.name;
-			doc.is_child=1
-			frappe.set_route('Form', 'Supplier', doc.name);
+	new_supplier: function (frm) {
+		var doc = frappe.model.get_new_doc('Supplier');
+		doc.parent_supplier = frm.doc.name;
+		doc.is_child = 1
+		frappe.set_route('Form', 'Supplier', doc.name);
+	},
+	is_group: function (frm) {
+		if (frm.doc.is_group == 0) {
+			frappe.call({
+				method: "frappe.client.get_list",
+				args: {
+					doctype: "Supplier",
+					fields: ["name"],
+					filters: {
+						'parent_supplier': frm.doc.name,
+					},
+					"limit_page_length": 0
+				},
+				callback: function (r) {
+					if (r.message.length > 0) {
+						frm.set_value("is_group", 1)
+						frappe.validated = false;
+						msgprint("Unable to change " + frm.doc.supplier_name + " from parent to child.")
+					}
+				}
+			})
+		}
 	}
 })
 function update_factory_details(frm) {
@@ -147,8 +194,8 @@ function update_factory_details(frm) {
 		frm.doc.is_manager = 0
 		frm.refresh_field("is_factory_location");
 	}
-	else if(frm.doc.is_manager==1&&frm.doc.is_factory_location==0){
-		frm.doc.supplier_id=''
+	else if (frm.doc.is_manager == 1 && frm.doc.is_factory_location == 0) {
+		frm.doc.supplier_id = ''
 		frm.refresh_field("supplier_id")
 	}
 }

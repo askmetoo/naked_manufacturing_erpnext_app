@@ -62,6 +62,7 @@ doctype_js = {
 	"Contact" : "naked_manufacturing/doctype/contact/contact.js"
 }
 doctype_tree_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_tree.js"}
+doctype_list_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_list.js"}
 
 # Includes in <head>
 # ------------------

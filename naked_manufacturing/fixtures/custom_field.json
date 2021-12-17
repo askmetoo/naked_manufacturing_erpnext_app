@@ -1147,7 +1147,7 @@
   "name": "Supplier-product_lookup",
   "no_copy": 0,
   "non_negative": 0,
-  "options": "\nTemplate and Variant ID\nSKU",
+  "options": "\nTemplate and Variant ID\nUnique ID",
   "parent": null,
   "parentfield": null,
   "parenttype": null,

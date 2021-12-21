@@ -32,5 +32,22 @@
   "reference_doctype": "Supplier",
   "script": "if doc.parent_supplier:\n    doc_name = frappe.db.get_value('Child Supplier Details',{'supplier_name':doc.name},'name')\n    frappe.get_doc(dict(\n        doctype = 'Child Supplier Details',\n        parent = doc.parent_supplier,\n        name = doc_name\n    )).delete()\n\nif doc.is_manager==0 and doc.report_manager!=None:\n    doc_name = frappe.db.get_value('Report Member Details',{'supplier_name':doc.name},'name')\n    frappe.get_doc(dict(\n        doctype = 'Report Member Details',\n        parent = doc.report_manager,\n        name = doc_name\n    )).delete()",
   "script_type": "DocType Event"
+ },
+ {
+  "allow_guest": 0,
+  "api_method": null,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Server Script",
+  "doctype_event": "Before Save",
+  "event_frequency": "All",
+  "modified": "2021-12-20 21:05:47.276270",
+  "name": "Item ",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "reference_doctype": "Item",
+  "script": "if doc.supplier_items:\n    for row in doc.supplier_items:\n        id=frappe.db.get_value('Supplier',{'name':row.supplier},'product_lookup')\n        if id ==\"Template and Variant ID\":\n            frappe.throw(_('Template ID and Variant ID is mandatory for supplier '+row.supplier+'.'))\n        elif id==\"Unique ID\":\n            frappe.throw(_('Unique ID is mandatory for supplier '+row.supplier+'.'))",
+  "script_type": "DocType Event"
  }
 ]

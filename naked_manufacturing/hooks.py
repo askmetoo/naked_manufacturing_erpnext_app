@@ -41,7 +41,11 @@ fixtures = ["Server Script",
 		"Supplier-coordinator_email",
 		"Supplier-new_supplier",
 		"Supplier-is_child",
-		"Supplier-manager_id"
+		"Supplier-manager_id",
+		"Item Supplier-template_id",
+		"Item Supplier-unique_id",
+		"Item Supplier-attributes",
+		"Item Supplier-variant_id"
 	]
 	]
 ]

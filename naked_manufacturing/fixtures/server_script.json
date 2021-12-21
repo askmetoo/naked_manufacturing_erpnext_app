@@ -41,13 +41,13 @@
   "doctype": "Server Script",
   "doctype_event": "Before Save",
   "event_frequency": "All",
-  "modified": "2021-12-20 23:47:12.195110",
+  "modified": "2021-12-21 00:27:37.521344",
   "name": "Item ",
   "parent": null,
   "parentfield": null,
   "parenttype": null,
   "reference_doctype": "Item",
-  "script": "if doc.supplier_items:\n    for row in doc.supplier_items:\n        id=frappe.db.get_value('Supplier',{'name':row.supplier},'product_lookup')\n        if id ==\"Template and Variant ID\" and row.template_id==None and row.variant_id==None:\n            frappe.throw(_('Template ID and Variant ID is mandatory for supplier '+row.supplier+'.'))\n        elif id==\"Unique ID\"and row.unique_id==None:\n            frappe.throw(_('Unique ID is mandatory for supplier '+row.supplier+'.'))",
+  "script": "if doc.supplier_items:\n    for row in doc.supplier_items:\n        id=frappe.db.get_value('Supplier',{'name':row.supplier},'product_lookup')\n        if id ==\"Template and Variant ID\" and ((row.template_id==None or row.template_id=='') or (row.variant_id==None or row.variant_id=='')):\n            frappe.throw(_('Template ID and Variant ID is mandatory for supplier '+row.supplier+'.'))\n        elif id==\"Unique ID\" and (row.unique_id==None or row.unique_id==''):\n            frappe.throw(_('Unique ID is mandatory for supplier '+row.supplier+'.'))",
   "script_type": "DocType Event"
  }
 ]

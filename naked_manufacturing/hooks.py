@@ -54,7 +54,9 @@ fixtures = ["Server Script",
 		"filters":[
 	["name","in",[
 		"Supplier-address_contacts-label",
-		"Supplier-contact_html-permlevel"
+		"Supplier-contact_html-permlevel",
+		"Item Supplier-supplier_part_no-hidden",
+		"Item Supplier-supplier_part_no-in_list_view"	
 	]
 	]
 	
@@ -63,8 +65,10 @@ fixtures = ["Server Script",
 ]
 doctype_js = {
 	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js",
-	"Contact" : "naked_manufacturing/doctype/contact/contact.js"
+	"Contact" : "naked_manufacturing/doctype/contact/contact.js",
+	"Item" : "naked_manufacturing/doctype/item/item.js"
 }
+
 doctype_tree_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_tree.js"}
 doctype_list_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_list.js"}
 

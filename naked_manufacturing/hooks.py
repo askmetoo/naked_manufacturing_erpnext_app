@@ -45,7 +45,13 @@ fixtures = ["Server Script",
 		"Item Supplier-template_id",
 		"Item Supplier-unique_id",
 		"Item Supplier-attributes",
-		"Item Supplier-variant_id"
+		"Item Supplier-variant_id",
+		"Item-product_details_section",
+		"Item-gsm_field",
+		"Item-fiber_type_details",
+		"Item-finish_field",
+		"Item-product_break"
+
 	]
 	]
 ]

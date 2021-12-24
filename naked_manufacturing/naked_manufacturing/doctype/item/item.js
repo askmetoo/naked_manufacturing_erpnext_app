@@ -8,6 +8,19 @@ frappe.ui.form.on('Item', {
 		validate_fiber_percentage(frm.doc.fiber_type_details)
 		validate_total_fiber_percentage(frm.doc.fiber_type_details)
 	}
+	// after_save: function (frm) {
+	// 	frappe.call({
+	// 		method: "naked_manufacturing.naked_manufacturing.doctype.item.item.on_save",
+	// 		args: {
+	// 			name: frm.doc.name
+	// 		},
+	// 		async: false,
+	// 		callback: function (r) {
+	// 			frm.refresh_fields()
+	// 		}
+
+	// 	});
+	// }
 })
 
 frappe.ui.form.on('Fiber Type Details', {
@@ -28,7 +41,12 @@ function validate_min_max_value(frm) {
 
 function validate_fiber_percentage(items) {
 	$.each(items, function (idx, item) {
-		if (item.fiber_ < 0 || item.fiber_ > 100) {
+		if(item.fiber_type==undefined||item.fiber_type==''){
+			item.fiber_=''
+			frappe.validated = false;
+			msgprint("Please enter fiber type")
+		}
+		else if (item.fiber_ < 0 || item.fiber_ > 100) {
 			frappe.validated = false;
 			msgprint("Fiber percentage should be greater than 0 and less than 100")
 		}

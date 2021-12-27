@@ -32,5 +32,39 @@
   "property_type": "Int",
   "row_name": null,
   "value": "1"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item Supplier",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "supplier_part_no",
+  "modified": "2021-12-21 19:48:20.819524",
+  "name": "Item Supplier-supplier_part_no-hidden",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "hidden",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item Supplier",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "supplier_part_no",
+  "modified": "2021-12-21 19:51:27.290449",
+  "name": "Item Supplier-supplier_part_no-in_list_view",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "in_list_view",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "0"
  }
 ]

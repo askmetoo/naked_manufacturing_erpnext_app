@@ -41,7 +41,17 @@ fixtures = ["Server Script",
 		"Supplier-coordinator_email",
 		"Supplier-new_supplier",
 		"Supplier-is_child",
-		"Supplier-manager_id"
+		"Supplier-manager_id",
+		"Item Supplier-template_id",
+		"Item Supplier-unique_id",
+		"Item Supplier-attributes",
+		"Item Supplier-variant_id",
+		"Item-product_details_section",
+		"Item-gsm_field",
+		"Item-fiber_type_details",
+		"Item-finish_field",
+		"Item-product_break"
+
 	]
 	]
 ]
@@ -50,7 +60,9 @@ fixtures = ["Server Script",
 		"filters":[
 	["name","in",[
 		"Supplier-address_contacts-label",
-		"Supplier-contact_html-permlevel"
+		"Supplier-contact_html-permlevel",
+		"Item Supplier-supplier_part_no-hidden",
+		"Item Supplier-supplier_part_no-in_list_view"	
 	]
 	]
 	
@@ -59,8 +71,10 @@ fixtures = ["Server Script",
 ]
 doctype_js = {
 	"Supplier" : "naked_manufacturing/doctype/supplier/supplier.js",
-	"Contact" : "naked_manufacturing/doctype/contact/contact.js"
+	"Contact" : "naked_manufacturing/doctype/contact/contact.js",
+	"Item" : "naked_manufacturing/doctype/item/item.js"
 }
+
 doctype_tree_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_tree.js"}
 doctype_list_js = {"Supplier" : "naked_manufacturing/doctype/supplier/supplier_list.js"}
 

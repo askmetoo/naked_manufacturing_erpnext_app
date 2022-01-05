@@ -5,7 +5,9 @@ frappe.ui.form.on('Supplier Report', {
 	modified_report: function (frm) {
 		if(frm.doc.modified_report!=""||frm.doc.modified_report!=undefined){
 			frm.doc.doc_status="Processed"
-			frm.refresh_field("doc_status")
+		}
+		else if (frm.doc.modified_report==""||frm.doc.modified_report==undefined){
+			frm.doc.doc_status="Not Processed"
 		}
 	},
 	before_submit:function(frm){

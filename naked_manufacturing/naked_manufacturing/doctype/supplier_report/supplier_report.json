@@ -17,8 +17,7 @@
   {
    "fieldname": "original_report",
    "fieldtype": "Attach",
-   "label": "Original Report",
-   "set_only_once": 1
+   "label": "Original Report"
   },
   {
    "fieldname": "modified_report",
@@ -51,7 +50,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-01-04 21:17:24.898419",
+ "modified": "2022-01-04 21:42:32.851443",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Report",

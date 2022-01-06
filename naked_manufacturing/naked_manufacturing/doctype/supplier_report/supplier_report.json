@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "SUP-REP.#####",
+ "creation": "2021-12-27 00:08:08.930298",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "original_report",
+  "modified_report",
+  "doc_status",
+  "notes",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "original_report",
+   "fieldtype": "Attach",
+   "label": "Original Report"
+  },
+  {
+   "fieldname": "modified_report",
+   "fieldtype": "Attach",
+   "label": "Modified Report"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Supplier Report",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "default": "Not Processed",
+   "fieldname": "doc_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nNot Processed\nProcessed\nSkipped\nNo New Entries\nError"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2022-01-04 21:42:32.851443",
+ "modified_by": "Administrator",
+ "module": "naked_manufacturing",
+ "name": "Supplier Report",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

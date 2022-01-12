@@ -67,6 +67,16 @@ fixtures = ["Server Script",
 	]
 	
 ]
+},
+{
+    "dt":"Workspace",
+    "filters":[
+        [
+        "name","in",[
+		"Supply Chain"
+        ]
+    ]
+]
 }
 ]
 doctype_js = {

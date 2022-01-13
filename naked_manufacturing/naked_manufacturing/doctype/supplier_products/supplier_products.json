@@ -15,7 +15,9 @@
   "column_break_7",
   "template_id",
   "color",
-  "gsm"
+  "gsm",
+  "unique_id",
+  "product_identifier"
  ],
  "fields": [
   {
@@ -25,6 +27,7 @@
    "options": "Supplier"
   },
   {
+   "depends_on": "eval:doc.product_identifier == \"Template and Variant ID\"",
    "fieldname": "variant_id",
    "fieldtype": "Data",
    "label": "Variant ID"
@@ -49,6 +52,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.product_identifier == \"Template and Variant ID\"",
    "fieldname": "template_id",
    "fieldtype": "Data",
    "label": "Template ID"
@@ -62,11 +66,23 @@
    "fieldname": "gsm",
    "fieldtype": "Data",
    "label": "GSM"
+  },
+  {
+   "depends_on": "eval:doc.product_identifier == \"Unique ID\"",
+   "fieldname": "unique_id",
+   "fieldtype": "Data",
+   "label": "Unique ID"
+  },
+  {
+   "fieldname": "product_identifier",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Product Identifier"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-11 23:21:25.340439",
+ "modified": "2022-01-12 22:59:53.295469",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Products",

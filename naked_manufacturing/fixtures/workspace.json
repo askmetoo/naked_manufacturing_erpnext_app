@@ -76,9 +76,24 @@
     "parentfield": "links",
     "parenttype": "Workspace",
     "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Supplier Product Settings",
+    "link_to": "Supplier Product Settings",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "Supply Chain",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "type": "Link"
    }
   ],
-  "modified": "2022-01-12 21:16:29.749143",
+  "modified": "2022-01-13 00:14:34.932783",
   "module": "naked_manufacturing",
   "name": "Supply Chain",
   "onboarding": null,

@@ -10,13 +10,13 @@
   "supplier_id",
   "variant_id",
   "description",
-  "finish",
+  "color",
   "width",
   "column_break_7",
   "template_id",
-  "color",
-  "gsm",
   "unique_id",
+  "finish",
+  "gsm",
   "product_identifier"
  ],
  "fields": [
@@ -90,7 +90,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-18 00:39:27.992066",
+ "modified": "2022-01-18 03:22:57.887991",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Products",
@@ -109,7 +109,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

@@ -84,12 +84,13 @@
   {
    "fieldname": "product_identifier",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Product Identifier"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-18 00:04:39.613293",
+ "modified": "2022-01-18 00:39:27.992066",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Products",

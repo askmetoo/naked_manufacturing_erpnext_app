@@ -23,14 +23,18 @@
   {
    "fieldname": "supplier_id",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Supplier ID",
-   "options": "Supplier"
+   "options": "Supplier",
+   "reqd": 1
   },
   {
    "depends_on": "eval:doc.product_identifier == \"Template and Variant ID\"",
    "fieldname": "variant_id",
    "fieldtype": "Data",
-   "label": "Variant ID"
+   "in_list_view": 1,
+   "label": "Variant ID",
+   "mandatory_depends_on": "eval:doc.product_identifier == \"Template and Variant ID\""
   },
   {
    "fieldname": "description",
@@ -55,7 +59,9 @@
    "depends_on": "eval:doc.product_identifier == \"Template and Variant ID\"",
    "fieldname": "template_id",
    "fieldtype": "Data",
-   "label": "Template ID"
+   "in_list_view": 1,
+   "label": "Template ID",
+   "mandatory_depends_on": "eval:doc.product_identifier == \"Template and Variant ID\""
   },
   {
    "fieldname": "color",
@@ -71,18 +77,19 @@
    "depends_on": "eval:doc.product_identifier == \"Unique ID\"",
    "fieldname": "unique_id",
    "fieldtype": "Data",
-   "label": "Unique ID"
+   "in_list_view": 1,
+   "label": "Unique ID",
+   "mandatory_depends_on": "eval:doc.product_identifier == \"Unique ID\""
   },
   {
    "fieldname": "product_identifier",
    "fieldtype": "Data",
-   "hidden": 1,
    "label": "Product Identifier"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-12 22:59:53.295469",
+ "modified": "2022-01-18 00:04:39.613293",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Products",

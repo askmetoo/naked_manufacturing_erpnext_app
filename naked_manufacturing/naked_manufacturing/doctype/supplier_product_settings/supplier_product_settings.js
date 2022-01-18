@@ -6,7 +6,15 @@ frappe.ui.form.on('Supplier Product Settings', {
 		add_fields_to_mapping_table(frm);
 	},
 	refresh: function (frm) {
-		add_fields_to_mapping_table(frm);	
+		add_fields_to_mapping_table(frm);
+	},
+	before_save: function (frm) {
+		$.each(frm.doc.supplier_report_mapping, function (idx, supplier) {
+			if (supplier.file_field == undefined || supplier.file_field == '') {
+				frappe.validated = false;
+				msgprint('Unable to save the details.Please provide the column number in '+supplier.field_in_supplier_products)
+			}
+		})
 	}
 
 });

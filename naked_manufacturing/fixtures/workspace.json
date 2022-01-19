@@ -22,7 +22,7 @@
     "hidden": 0,
     "icon": null,
     "is_query_report": 0,
-    "label": "Key Reports",
+    "label": "Supplier",
     "link_to": null,
     "link_type": "DocType",
     "onboard": 0,
@@ -46,21 +46,6 @@
     "parentfield": "links",
     "parenttype": "Workspace",
     "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Supplier",
-    "link_to": null,
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "Supply Chain",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "type": "Card Break"
    },
    {
     "dependencies": null,
@@ -93,7 +78,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2022-01-13 00:14:34.932783",
+  "modified": "2022-01-18 19:56:05.419295",
   "module": "naked_manufacturing",
   "name": "Supply Chain",
   "onboarding": null,

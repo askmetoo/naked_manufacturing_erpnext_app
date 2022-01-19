@@ -22,7 +22,7 @@
     "hidden": 0,
     "icon": null,
     "is_query_report": 0,
-    "label": "Supplier",
+    "label": "Supplier Products",
     "link_to": null,
     "link_type": "DocType",
     "onboard": 0,
@@ -78,7 +78,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2022-01-18 19:56:05.419295",
+  "modified": "2022-01-18 22:09:16.315628",
   "module": "naked_manufacturing",
   "name": "Supply Chain",
   "onboarding": null,

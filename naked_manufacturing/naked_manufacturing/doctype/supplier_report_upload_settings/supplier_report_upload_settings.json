@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "supplier_id",
+  "product_identifier",
   "supplier_report_mapping"
  ],
  "fields": [
@@ -23,14 +24,21 @@
    "label": "Supplier ID",
    "options": "Supplier",
    "unique": 1
+  },
+  {
+   "fetch_from": "supplier_id.product_lookup",
+   "fieldname": "product_identifier",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Product Identifier"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-11 00:24:51.796152",
+ "modified": "2022-01-23 22:40:16.447982",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
- "name": "Supplier Product Settings",
+ "name": "Supplier Report Upload Settings",
  "owner": "Administrator",
  "permissions": [
   {

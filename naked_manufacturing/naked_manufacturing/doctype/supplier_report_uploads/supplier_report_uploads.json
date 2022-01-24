@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "SUP-PROD.#####",
  "creation": "2022-01-11 22:15:00.900791",
@@ -9,15 +10,17 @@
  "field_order": [
   "supplier_id",
   "variant_id",
+  "unique_id",
+  "column_break_4",
+  "template_id",
+  "section_break_6",
   "description",
   "color",
   "width",
   "column_break_7",
-  "template_id",
-  "unique_id",
+  "product_identifier",
   "finish",
-  "gsm",
-  "product_identifier"
+  "gsm"
  ],
  "fields": [
   {
@@ -38,7 +41,7 @@
   },
   {
    "fieldname": "description",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Description"
   },
   {
@@ -79,21 +82,30 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Unique ID",
-   "mandatory_depends_on": "eval:doc.product_identifier == \"Unique ID\""
+   "mandatory_depends_on": "eval:doc.product_identifier == \"Unique ID\"",
+   "reqd": 1
   },
   {
    "fieldname": "product_identifier",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Product Identifier"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-18 03:39:48.714346",
+ "modified": "2022-01-23 22:26:01.635696",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
- "name": "Supplier Products",
+ "name": "Supplier Report Uploads",
  "owner": "Administrator",
  "permissions": [
   {

@@ -11,7 +11,7 @@
  "fields": [
   {
    "fieldname": "file_field",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Column in Supplier Report File",
    "non_negative": 1
@@ -20,13 +20,15 @@
    "fieldname": "field_in_supplier_products",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Field in Supplier Products"
+   "label": "Field in Supplier Products",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-01-18 01:25:13.480180",
+ "modified": "2022-01-23 23:18:16.723937",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Report Mapping",

@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 
-class SupplierReportUploads(Document):
+class SupplierProducts(Document):
 	def after_insert(self):
 		value=self.name
 		name_list = frappe.get_list('Supplier Report',filters={'import_log': ['like', '%value%'] },fields=['name'],order_by='modified desc')

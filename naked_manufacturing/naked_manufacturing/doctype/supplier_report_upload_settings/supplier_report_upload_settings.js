@@ -43,8 +43,8 @@ frappe.ui.form.on('Supplier Report Upload Settings', {
 
 let add_fields_to_mapping_table = function (frm) {
 
-	frappe.model.with_doctype("Supplier Report Uploads", function () {
-		let meta = frappe.get_meta("Supplier Report Uploads");
+	frappe.model.with_doctype("Supplier Products", function () {
+		let meta = frappe.get_meta("Supplier Products");
 		meta.fields.forEach(value => {
 			if (!["Section Break", "Column Break"].includes(value.fieldtype) && !options.includes(value.fieldname)) {
 				options.push(value.fieldname);

@@ -1,114 +1,64 @@
 {
  "actions": [],
- "allow_import": 1,
  "allow_rename": 1,
- "autoname": "SUP-PROD.#####",
- "creation": "2022-01-11 22:15:00.900791",
+ "autoname": "SUP-REP.#####",
+ "creation": "2021-12-27 00:08:08.930298",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "supplier_id",
-  "variant_id",
-  "unique_id",
-  "column_break_4",
-  "template_id",
-  "section_break_6",
-  "description",
-  "color",
-  "width",
-  "column_break_7",
-  "product_identifier",
-  "finish",
-  "gsm"
+  "supplier",
+  "import_file",
+  "doc_status",
+  "notes",
+  "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "supplier_id",
+   "fieldname": "supplier",
    "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "import_file",
+   "fieldtype": "Attach",
+   "label": "Supplier Report"
+  },
+  {
+   "default": "Not Processed",
+   "fieldname": "doc_status",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Supplier ID",
-   "options": "Supplier",
-   "reqd": 1
+   "label": "Status",
+   "options": "\nNot Processed\nProcessed\nSkipped\nNo New Entries\nError"
   },
   {
-   "depends_on": "eval:doc.product_identifier == \"Template and Variant ID\"",
-   "fieldname": "variant_id",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Variant ID",
-   "mandatory_depends_on": "eval:doc.product_identifier == \"Template and Variant ID\""
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
   },
   {
-   "fieldname": "description",
-   "fieldtype": "Data",
-   "label": "Description"
-  },
-  {
-   "fieldname": "finish",
-   "fieldtype": "Data",
-   "label": "Finish"
-  },
-  {
-   "fieldname": "width",
-   "fieldtype": "Data",
-   "label": "Width"
-  },
-  {
-   "fieldname": "column_break_7",
-   "fieldtype": "Column Break"
-  },
-  {
-   "depends_on": "eval:doc.product_identifier == \"Template and Variant ID\"",
-   "fieldname": "template_id",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Template ID",
-   "mandatory_depends_on": "eval:doc.product_identifier == \"Template and Variant ID\""
-  },
-  {
-   "fieldname": "color",
-   "fieldtype": "Data",
-   "label": "Color"
-  },
-  {
-   "fieldname": "gsm",
-   "fieldtype": "Data",
-   "label": "GSM"
-  },
-  {
-   "depends_on": "eval:doc.product_identifier == \"Unique ID\"",
-   "fieldname": "unique_id",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Unique ID",
-   "mandatory_depends_on": "eval:doc.product_identifier == \"Unique ID\"",
-   "reqd": 1
-  },
-  {
-   "fieldname": "product_identifier",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Product Identifier"
-  },
-  {
-   "fieldname": "column_break_4",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_6",
-   "fieldtype": "Section Break"
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Supplier Report Uploads",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2022-01-23 22:26:01.635696",
+ "modified": "2022-01-24 01:16:02.917560",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
  "name": "Supplier Report Uploads",
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -118,6 +68,7 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

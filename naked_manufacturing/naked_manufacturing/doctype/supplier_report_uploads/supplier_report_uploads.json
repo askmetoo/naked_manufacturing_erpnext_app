@@ -7,22 +7,31 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "original_report",
-  "modified_report",
+  "supplier",
+  "import_file",
   "doc_status",
   "notes",
   "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "original_report",
-   "fieldtype": "Attach",
-   "label": "Original Report"
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
   },
   {
-   "fieldname": "modified_report",
+   "fieldname": "import_file",
    "fieldtype": "Attach",
-   "label": "Modified Report"
+   "label": "Supplier Report"
+  },
+  {
+   "default": "Not Processed",
+   "fieldname": "doc_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nNot Processed\nProcessed\nSkipped\nNo New Entries\nError"
   },
   {
    "fieldname": "notes",
@@ -34,26 +43,18 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Supplier Report",
+   "options": "Supplier Report Uploads",
    "print_hide": 1,
    "read_only": 1
-  },
-  {
-   "default": "Not Processed",
-   "fieldname": "doc_status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Status",
-   "options": "\nNot Processed\nProcessed\nSkipped\nNo New Entries\nError"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-01-04 21:42:32.851443",
+ "modified": "2022-01-24 01:16:02.917560",
  "modified_by": "Administrator",
  "module": "naked_manufacturing",
- "name": "Supplier Report",
+ "name": "Supplier Report Uploads",
  "owner": "Administrator",
  "permissions": [
   {
